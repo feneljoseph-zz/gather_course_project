@@ -1,0 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@drawable/login"
+    tools:context=".WelcomeActivity"
+    android:id="@+id/Welcome">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <TextView android:id="@+id/fullscreen_content" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:keepScreenOn="true"
+        android:textSize="35sp"
+        android:text="@string/welcome_message"
+        android:textStyle="bold|italic"
+        android:gravity="center_vertical|center_horizontal"
+        android:typeface="normal"
+        android:background="@drawable/login" />
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+        android:id="@+id/button1"
+        android:layout_gravity="start|bottom"
+        android:onClick="signIn" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        android:id="@+id/button2"
+        android:layout_gravity="end|bottom"
+        android:onClick="signUp" />
+
+</FrameLayout>
