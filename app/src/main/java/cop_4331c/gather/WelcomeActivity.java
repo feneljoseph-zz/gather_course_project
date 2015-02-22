@@ -52,10 +52,8 @@ public class WelcomeActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_welcome);
-
-        // final View controlsView = findViewById(R.id.fullscreen_content_controls);
-        final View contentView = findViewById(R.id.fullscreen_content);
-        final View controlsView = findViewById(R.id.fullscreen_content);
+        final View contentView = findViewById(R.id.textView);
+        final View controlsView = findViewById(R.id.textView);
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.

@@ -7,14 +7,6 @@
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView android:id="@+id/fullscreen_content" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:keepScreenOn="true"
-        android:textSize="35sp"
-        android:text="@string/welcome_message"
-        android:textStyle="bold|italic"
-        android:gravity="center_vertical|center_horizontal"
-        android:typeface="normal"
-        android:background="@drawable/login" />
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
@@ -35,5 +27,17 @@
         android:id="@+id/button2"
         android:layout_gravity="end|bottom"
         android:onClick="signUp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/welcome_message"
+        android:id="@+id/textView"
+        android:layout_gravity="center"
+        android:textSize="@dimen/abc_text_size_display_2_material"
+        android:textStyle="italic"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="#ffc8c8c8" />
 
 </FrameLayout>
