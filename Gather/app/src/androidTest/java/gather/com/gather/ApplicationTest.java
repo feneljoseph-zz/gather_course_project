@@ -1,4 +1,4 @@
-package com.gather;
+package gather.com.gather;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
