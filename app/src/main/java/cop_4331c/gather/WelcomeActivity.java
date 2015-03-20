@@ -170,4 +170,9 @@ public class WelcomeActivity extends Activity {
         Intent signUp = new Intent(this,SignUpActivity.class);
         startActivity(signUp);
     }
+
+    public void publishEventTest(View view) {
+        Intent test = new Intent(this, PublishEventActivity.class);
+        startActivity(test);
+    }
 }

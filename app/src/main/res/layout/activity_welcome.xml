@@ -10,6 +10,7 @@
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -39,5 +40,15 @@
         android:textStyle="italic"
         android:gravity="center_vertical|center_horizontal"
         android:textColor="#ffc8c8c8" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Publish Event"
+        android:id="@+id/test_button"
+        android:layout_gravity="right|bottom"
+        android:onClick="publishEventTest"
+        android:layout_marginBottom="100dp"/>
 
 </FrameLayout>

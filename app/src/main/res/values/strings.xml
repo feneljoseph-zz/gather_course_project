@@ -13,6 +13,24 @@
     <string name="title_activity_sign_in">Sign In</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="publishing_activity_title">Publish Event</string>
+    <string name="event_image_desc">Event picture</string>
+    <string name="social_media_label">Share Your Event</string>
+    <string name="social_media_info">Tell your friends about your event!</string>
+    <string name="social_media_text_hint">Hey, guys! Check out my event! #GETkRuNk</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_user_name">user_name</string>
+    <string name="facebook_image_desc">Facebook icon</string>
+    <string name="twitter">Twitter</string>
+    <string name="twitter_user_name">\@user_name</string>
+    <string name="twitter_image_desc">Twitter icon</string>
+    <string name="instagram">Instagram</string>
+    <string name="instagram_user_name">user_name</string>
+    <string name="instagram_image_desc">Instagram icon</string>
+    <string name="google_plus">Google+</string>
+    <string name="google_plus_user_name">user_name</string>
+    <string name="google_plus_image_desc">Google+ icon</string>
+    <string name="phrase">Now it\'s time to…</string>
 
 
 </resources>
