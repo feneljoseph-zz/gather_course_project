@@ -13,6 +13,7 @@
     <string name="title_activity_sign_in">Sign In</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="title_activity_host_music_playlist_home">HostMusicPlaylistHomeActivity</string>
 
 
 </resources>
