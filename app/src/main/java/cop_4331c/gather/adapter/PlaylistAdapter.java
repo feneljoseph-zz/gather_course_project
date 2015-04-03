@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import cop_4331c.gather.R;
 import cop_4331c.gather.music.Song;
 
@@ -16,7 +18,7 @@ import cop_4331c.gather.music.Song;
  */
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>
 {
-    private Song[] mSongs;
+    public Song[] mSongs;
     private Context mContext;
 
     public PlaylistAdapter(Context context, Song[] songs)
@@ -47,16 +49,18 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         return mSongs.length;
     }
 
+
+
     public class PlaylistViewHolder extends RecyclerView.ViewHolder
     {
-//        public ImageView mAlbumCover;
+        public ImageView mAlbumCover;
         public TextView mSongInfoLabel;
 
 
         public PlaylistViewHolder(View itemView) {
             super(itemView);
 
-//            mAlbumCover = (ImageView) itemView.findViewById(R.id.albumCoverImage);
+            mAlbumCover = (ImageView) itemView.findViewById(R.id.albumCoverImage);
             mSongInfoLabel = (TextView) itemView.findViewById(R.id.songInfoLabel);
 
         }
@@ -64,7 +68,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
         public void bindSong(Song song)
         {
-//            mAlbumCover.setImageResource(song.getSongId());
+            Picasso.with(mContext).load(song.getAlbumCoverURL()).into(mAlbumCover);
             mSongInfoLabel.setText(song.getSongName());
         }
     }

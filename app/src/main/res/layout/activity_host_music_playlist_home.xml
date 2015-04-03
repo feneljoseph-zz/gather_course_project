@@ -64,9 +64,9 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="Refresh"
             android:background="#40ffffff"
-            android:id="@+id/button"
+            android:id="@+id/refresh"
             android:layout_weight="1"/>
 
         <Button
