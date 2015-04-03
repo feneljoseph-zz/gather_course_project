@@ -27,22 +27,15 @@
         android:layout_below="@+id/addSongLayout"
         android:id="@+id/linearLayout2">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/imageView"
-            android:layout_weight="1"
-            android:src="@drawable/abc_ic_search_api_mtrl_alpha"/>
-
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2"
-            android:hint="Choose your playlist"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="0.25"/>
-
+            android:text="Music Playlist"
+            android:id="@+id/homeActivityLabel"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -64,23 +57,24 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Refresh"
+            android:text="Edit "
             android:background="#40ffffff"
-            android:id="@+id/refresh"
+            android:id="@+id/editPlaylistButton"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:background="#40ffffff"
+            android:id="@+id/searchButton"
             android:layout_weight="1"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:background="#40ffffff"
-            android:id="@+id/button4"
-            android:layout_weight="1"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="Now Playling"
             android:background="#40ffffff"
             android:id="@+id/button5"
             android:layout_weight="1"/>

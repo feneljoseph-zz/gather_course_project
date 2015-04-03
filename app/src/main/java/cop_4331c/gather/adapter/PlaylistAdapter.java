@@ -18,7 +18,7 @@ import cop_4331c.gather.music.Song;
  */
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>
 {
-    public Song[] mSongs;
+    private Song[] mSongs;
     private Context mContext;
 
     public PlaylistAdapter(Context context, Song[] songs)
@@ -49,7 +49,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         return mSongs.length;
     }
 
-
+    public void refreshWithNewData(Song[] songs)
+    {
+        mSongs = songs;
+        notifyDataSetChanged();
+    }
 
     public class PlaylistViewHolder extends RecyclerView.ViewHolder
     {
