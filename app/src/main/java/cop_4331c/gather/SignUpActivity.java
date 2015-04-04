@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 
 public class SignUpActivity extends ActionBarActivity {
@@ -35,5 +36,13 @@ public class SignUpActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isEmpty(EditText input) {
+        if (input.getText().toString().trim().length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

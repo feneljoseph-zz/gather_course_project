@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 public class WelcomeActivity extends Activity {
 
     @Override
