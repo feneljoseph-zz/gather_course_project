@@ -4,11 +4,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="cop_4331c.gather.SignUpActivity"
+    tools:context="cop_4331c.gather.SignInActivity"
+    android:id="@+id/signInActivity"
     android:background="#ff676767">
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollViewLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="false"
@@ -18,39 +19,78 @@
         android:layout_centerInParent="true">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
+            android:id="@+id/linearLayoutLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <AutoCompleteTextView
-                android:id="@+id/email"
+                android:id="@+id/textFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_email"
+                android:hint="First Name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <AutoCompleteTextView
+                android:id="@+id/textLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <AutoCompleteTextView
+                android:id="@+id/textUsernameLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username (Email Address)"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
 
+            <AutoCompleteTextView
+                android:id="@+id/textPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number (optional)"
+                android:inputType="text|phone"
+                android:maxLines="1"
+                android:singleLine="true" />
+
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/textPasswordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
                 android:imeActionId="@integer/abc_max_action_buttons"
-                android:imeActionLabel="@string/sign_up"
+                android:imeActionLabel="@string/sign_in"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/textPasswordVerify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Verify Password"
+                android:imeActionId="@integer/abc_max_action_buttons"
+                android:imeActionLabel="@string/sign_in"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true" />
 
             <Button
-                style="?android:textAppearanceSmall"
-                android:id="@+id/email_sign_in_button"
+                style="?android:textAppearanceMedium"
+                android:id="@+id/buttonSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/sign_up"
+                android:text="@string/sign_in"
                 android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>

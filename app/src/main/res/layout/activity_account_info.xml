@@ -1,0 +1,35 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="25px"
+    tools:context=".AccountInfoActivity">
+
+    <FrameLayout
+        android:id="@+id/frameLayoutMain"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/text1"
+            android:layout_height="wrap_content"
+            android:text="You've Signed In!"
+            android:layout_width="fill_parent"
+            android:textColor="#000000"
+            android:textSize="32px"
+            android:gravity="center"
+            android:layout_marginTop="100px"/>
+
+        <TextView android:id="@+id/text2"
+            android:layout_height="wrap_content"
+            android:text="User Information"
+            android:layout_width="fill_parent"
+            android:textColor="#000000"
+            android:textSize="40px"
+            android:gravity="center"
+            android:layout_marginTop="130px"/>
+    </FrameLayout>
+</LinearLayout>

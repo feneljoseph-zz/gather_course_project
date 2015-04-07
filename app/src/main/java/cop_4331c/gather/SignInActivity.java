@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +14,7 @@ import com.parse.ParseUser;
 
 public class SignInActivity extends ActionBarActivity {
 
-    private EditText emailInput;
+    private EditText usernameInput;
     private EditText passwordInput;
 
     @Override
@@ -24,7 +22,7 @@ public class SignInActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        emailInput = (EditText) findViewById(R.id.textEmailLogin);
+        usernameInput = (EditText) findViewById(R.id.textUsernameLogin);
         passwordInput = (EditText) findViewById(R.id.textPasswordLogin);
 
         findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
@@ -33,7 +31,7 @@ public class SignInActivity extends ActionBarActivity {
                 boolean validationError = false;
                 StringBuilder validationErrorMessage =
                         new StringBuilder("Please ");
-                if (isEmpty(emailInput)) {
+                if (isEmpty(usernameInput)) {
                     validationError = true;
                     validationErrorMessage.append("enter a username");
                 }
@@ -59,7 +57,7 @@ public class SignInActivity extends ActionBarActivity {
                 dlg.setMessage("Logging in.  Please wait.");
                 dlg.show();
                 // Call the Parse login method
-                ParseUser.logInInBackground(emailInput.getText().toString(), passwordInput.getText()
+                ParseUser.logInInBackground(usernameInput.getText().toString(), passwordInput.getText()
                         .toString(), new LogInCallback() {
 
                     @Override
@@ -86,27 +84,5 @@ public class SignInActivity extends ActionBarActivity {
         } else {
             return true;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sign_in, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
