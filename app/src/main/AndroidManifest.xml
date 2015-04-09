@@ -15,14 +15,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-<<<<<<< HEAD
         android:theme="@style/Theme.AppCompat.NoActionBar" >
-=======
-        android:theme="@style/AppTheme"
         android:name=".GatherActivity">
 
-
->>>>>>> 147b97170d3872ab8a6c16e311b702e4fb4bfc12
         <activity
             android:name=".DispatchActivity"
             android:screenOrientation="portrait"
@@ -61,7 +56,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cop_4331c.gather.WelcomeActivity" />
         </activity>
-<<<<<<< HEAD
         <activity
             android:name=".ui.HostMusicPlaylistHomeActivity"
             android:label="@string/title_activity_host_music_playlist_home" >
@@ -69,9 +63,8 @@
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-=======
         <activity android:name=".MainActivity" />
->>>>>>> 147b97170d3872ab8a6c16e311b702e4fb4bfc12
+
     </application>
 
 </manifest>
