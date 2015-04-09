@@ -37,83 +37,83 @@ public class SignUpActivity extends ActionBarActivity {
         passwordAgainView = (EditText) findViewById(R.id.textPasswordVerify);
 
         // Set up the submit button click handler
-        findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonSignUp).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                // Validate the sign up data
-                boolean validationError = false;
-                StringBuilder validationErrorMessage =
-                        new StringBuilder("Please ");
-                if (isEmpty(firstnameView) || isEmpty(lastnameView)) {
-                    validationError = true;
-                    validationErrorMessage.append("enter your first & last name");
-                }
-                if (isEmpty(usernameView) && !isEmailValid(usernameView) ) {
-                    if (validationError) {
-                        validationErrorMessage.append(", and ");
+            // Validate the sign up data
+//            boolean validationError = false;
+//            StringBuilder validationErrorMessage =
+//                    new StringBuilder("Please ");
+//            if (isEmpty(firstnameView) || isEmpty(lastnameView)) {
+//                validationError = true;
+//                validationErrorMessage.append("enter your first & last name");
+//            }
+//            if (isEmpty(usernameView) && !isEmailValid(usernameView) ) {
+//                if (validationError) {
+//                    validationErrorMessage.append(", and ");
+//                }
+//                validationError = true;
+//                validationErrorMessage.append("enter a valid username");
+//            }
+//            if (isEmpty(passwordView)) {
+//                if (validationError) {
+//                    validationErrorMessage.append(", and ");
+//                }
+//                validationError = true;
+//                validationErrorMessage.append("enter a password");
+//            }
+//            if (!isMatching(passwordView, passwordAgainView)) {
+//                if (validationError) {
+//                    validationErrorMessage.append(", and ");
+//                }
+//                validationError = true;
+//                validationErrorMessage.append("enter the same password twice");
+//            }
+//            validationErrorMessage.append(".");
+//
+//            // If there is a validation error, display the error
+//            if (validationError) {
+//                Toast.makeText(SignUpActivity.this, validationErrorMessage.toString(), Toast.LENGTH_LONG)
+//                        .show();
+//                return;
+//            }
+
+            // Set up a progress dialog
+            final ProgressDialog dlg = new ProgressDialog(SignUpActivity.this);
+            dlg.setTitle("Please wait.");
+            dlg.setMessage("Signing up.  Please wait.");
+            dlg.show();
+
+            // Set up a new Parse user
+            ParseUser user = new ParseUser();
+            user.setUsername(usernameView.getText().toString());
+            user.setPassword(passwordView.getText().toString());
+
+            user.put("firstName", firstnameView.getText().toString());
+            user.put("lastName", lastnameView.getText().toString());
+            user.put("email", usernameView.getText().toString());
+
+            if ( isNumberValid(phonenumberView) && !isEmpty(phonenumberView) ) {
+                user.put("phoneNumber", phonenumberView.getText().toString());
+            }
+
+            // Call the Parse signup method
+            user.signUpInBackground(new SignUpCallback() {
+
+                @Override
+                public void done(ParseException e) {
+                    dlg.dismiss();
+                    if (e != null) {
+                        // Show the error message
+                        Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        // Start an intent for the dispatch activity
+                        Intent intent = new Intent(SignUpActivity.this, DispatchActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
-                    validationError = true;
-                    validationErrorMessage.append("enter a valid username");
                 }
-                if (isEmpty(passwordView)) {
-                    if (validationError) {
-                        validationErrorMessage.append(", and ");
-                    }
-                    validationError = true;
-                    validationErrorMessage.append("enter a password");
-                }
-                if (!isMatching(passwordView, passwordAgainView)) {
-                    if (validationError) {
-                        validationErrorMessage.append(", and ");
-                    }
-                    validationError = true;
-                    validationErrorMessage.append("enter the same password twice");
-                }
-                validationErrorMessage.append(".");
-
-                // If there is a validation error, display the error
-                if (validationError) {
-                    Toast.makeText(SignUpActivity.this, validationErrorMessage.toString(), Toast.LENGTH_LONG)
-                            .show();
-                    return;
-                }
-
-                // Set up a progress dialog
-                final ProgressDialog dlg = new ProgressDialog(SignUpActivity.this);
-                dlg.setTitle("Please wait.");
-                dlg.setMessage("Signing up.  Please wait.");
-                dlg.show();
-
-                // Set up a new Parse user
-                ParseUser user = new ParseUser();
-                user.setUsername(usernameView.getText().toString());
-                user.setPassword(passwordView.getText().toString());
-
-                user.put("firstName", firstnameView.getText().toString());
-                user.put("lastName", lastnameView.getText().toString());
-                user.put("email", usernameView.getText().toString());
-
-                if ( isNumberValid(phonenumberView) && !isEmpty(phonenumberView) ) {
-                    user.put("phoneNumber", phonenumberView.getText().toString());
-                }
-
-                // Call the Parse signup method
-                user.signUpInBackground(new SignUpCallback() {
-
-                    @Override
-                    public void done(ParseException e) {
-                        dlg.dismiss();
-                        if (e != null) {
-                            // Show the error message
-                            Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        } else {
-                            // Start an intent for the dispatch activity
-                            Intent intent = new Intent(SignUpActivity.this, DispatchActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                    }
-                });
+            });
             }
         });
     }
