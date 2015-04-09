@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 
+<<<<<<< HEAD
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -25,6 +26,10 @@ import kaaes.spotify.webapi.android.models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+=======
+import com.parse.Parse;
+import com.parse.ParseObject;
+>>>>>>> 147b97170d3872ab8a6c16e311b702e4fb4bfc12
 
 public class WelcomeActivity extends Activity {
 

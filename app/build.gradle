@@ -32,6 +32,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.0.0'
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.google.android.gms:play-services:6.5.87'
+<<<<<<< HEAD
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
@@ -40,4 +41,10 @@ dependencies {
 
     // This library handles authentication and authorization
     compile 'com.spotify.sdk:spotify-auth:1.0.0-beta9@aar'
+=======
+
+    compile files('libs/Parse-1.8.3.jar')
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
+>>>>>>> 147b97170d3872ab8a6c16e311b702e4fb4bfc12
 }
