@@ -31,6 +31,8 @@
     <string name="google_plus_user_name">user_name</string>
     <string name="google_plus_image_desc">Google+ icon</string>
     <string name="phrase">Now it\'s time to…</string>
-
+    <string name="feature_list_title">Feature List</string>
+    <string name="pick_venue_title">Pick a Venue</string>
+    <string name="or">or</string>
 
 </resources>

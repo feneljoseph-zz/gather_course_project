@@ -43,10 +43,10 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Publish Event"
+        android:text="Features List"
         android:id="@+id/test_button"
         android:layout_gravity="right|bottom"
-        android:onClick="publishEventTest"
+        android:onClick="FeaturesListTest"
         android:layout_marginBottom="100dp"/>
 
 </FrameLayout>

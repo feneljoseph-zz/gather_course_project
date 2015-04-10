@@ -23,8 +23,8 @@ public class WelcomeActivity extends Activity {
         startActivity(signUp);
     }
 
-    public void publishEventTest(View view) {
-        Intent test = new Intent(this, PublishEventActivity.class);
+    public void FeaturesListTest(View view) {
+        Intent test = new Intent(this, FeatureList.class);
         startActivity(test);
     }
 }
