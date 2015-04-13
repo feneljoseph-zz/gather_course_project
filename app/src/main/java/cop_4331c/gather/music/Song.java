@@ -9,6 +9,25 @@ import android.os.Parcelable;
 public class Song implements Parcelable
 {
     private String mSongName;
+    private String mArtist;
+    private String mId;
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
+
+    public String getArtist() {
+        return mArtist;
+    }
+
+    public void setArtist(String artist) {
+        mArtist = artist;
+    }
+
     private String mAlbumCoverURL;
 
 
@@ -38,13 +57,17 @@ public class Song implements Parcelable
     public void writeToParcel(Parcel dest, int flags)
     {
         dest.writeString(mSongName);
-//        dest.writeInt(mAlbumCoverURL);
+        dest.writeString(mArtist);
+        dest.writeString(mAlbumCoverURL);
+        dest.writeString(mId);
     }
 
     public Song(Parcel in)
     {
         mSongName = in.readString();
-//        mAlbumCoverURL = in.readInt();
+        mArtist = in.readString();
+        mAlbumCoverURL = in.readString();
+        mId = in.readString();
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {

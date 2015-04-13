@@ -36,6 +36,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.google.guava:guava:18.0'
     compile files('libs/spotify-web-api-android-0.1.0.jar')
 
     // This library handles authentication and authorization

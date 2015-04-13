@@ -1,45 +1,50 @@
 package cop_4331c.gather.ui;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import android.view.View;
 import android.widget.Toast;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.ListIterator;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import cop_4331c.gather.R;
-import cop_4331c.gather.adapter.PlaylistAdapter;
+import cop_4331c.gather.adapter.HomeAdapter;
 import cop_4331c.gather.music.Playlist;
-import cop_4331c.gather.music.User;
+import cop_4331c.gather.music.Host;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
-import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
 
-    private PlaylistAdapter adapter = null;
+    private HomeAdapter adapter = null;
 
     // Spotify auth info
     private static final String CLIENT_ID = "e565d7c739914340abfae5dec7e525a6";
     private static final String REDIRECT_URI = "gather-app-login://callback";
-    private static final int REQUEST_CODE = 1337;
+    private static final int AUTH_REQUEST_CODE = 1337;
+
+    public static final String HOST = "HOST";
+
 
     SpotifyApi api = new SpotifyApi();
-    SpotifyService spotify;
+    public static SpotifyService spotify;
+    private boolean isInit = false;
 
-    private User mUser = new User();
+    public static Host mHost = new Host();
 
     @InjectView(R.id.recyclerView) RecyclerView mRecyclerView;
 
@@ -50,153 +55,123 @@ public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
 
         //Connect Recycler view to activity
         ButterKnife.inject(this);
-        Intent intent = getIntent();
-        mUser.setUserType("HOST");
 
 
-        //TESTING
-        mUser.setPlaylists(new Playlist());
-
-        //Authenticate API and fill out the rest of the user information as well as playlist
-        authenticateSpotifyAPI();
-
-
+        //Fill with empty playlist until data is done downloading
+        mHost.setPlaylists(new Playlist());
+        new initApiTask().execute();
+        new downloadPlaylistTask().execute();
 
         //Create new adapter and set it.
-        adapter = new PlaylistAdapter(this, mUser.getPlaylists().getSongs());
+        adapter = new HomeAdapter(this, mHost.getPlaylists().getSongs());
         mRecyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
     }
 
-
-    //This method is called to begin the spotify authentication process
-    public void authenticateSpotifyAPI()
+    //Authenticates api with user info
+    private class initApiTask extends AsyncTask<Void, Void, Void>
     {
-        AuthenticationRequest.Builder builder =
-                new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-
-        builder.setScopes(new String[]{"streaming"});
-        AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-
-    }
-
-
-
-    //This method defines what happens after our authentication request receives a response
-    //If successful store the user's access token
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        // Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
-            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
-
-            switch (response.getType()) {
-                // Response was successful and contains auth token
-                case TOKEN:
-                    // Handle successful response
-                    // Store Host's access token
-                    api.setAccessToken(response.getAccessToken());
-                    mUser.setAccessToken(response.getAccessToken());
-
-                    spotify = api.getService();
-
-                    findGatherPlaylist();
-//                    fillPlaylist();
-                    break;
-
-                // Auth flow returned an error
-                case ERROR:
-                    // Handle error response
-                    break;
-
-                // Most likely auth flow was cancelled
-                default:
-                    // Handle other cases
-            }
+        @Override
+        protected void onPreExecute()
+        {
+            authenticateSpotifyAPI();
         }
-    }
 
-
-    public void fillPlaylist()
-    {
-        spotify.getPlaylist(mUser.getUserID(), mUser.getPlaylists().getPlaylistId(), new Callback<kaaes.spotify.webapi.android.models.Playlist>()
+        @Override
+        protected Void doInBackground(Void... params)
         {
 
-            //If a playlist is successfully returned parse it's track info
-            @Override
-            public void success(final kaaes.spotify.webapi.android.models.Playlist playlist, Response response)
+            //Wait until authentication completes
+            while(mHost.getAccessToken() == "")
             {
-                //Create array of Playlist tracks from api response and set as user's playlist
-                List<PlaylistTrack> songs = playlist.tracks.items;
-                mUser.setPlaylists(new Playlist(songs));
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
+
+            spotify = api.getService();
+
+
+            //Set User ID
+            mHost.setUserID(spotify.getMe().id);
+
+
+            //Find gather playlist id
+            ListIterator<kaaes.spotify.webapi.android.models.Playlist> itr = spotify.getPlaylists(mHost.getUserID()).items.listIterator();
+
+            while (itr.hasNext())
+            {
+                kaaes.spotify.webapi.android.models.Playlist p = itr.next();
+
+                if(p.name.equals("gather"))
+                {
+                      mHost.setPlaylistId(p.id);
+                }
+            }
+            return null;
+        }
+
+
+    }
+
+
+    //Use to initially download playlist
+    private class downloadPlaylistTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+
+            //Wait until authentication completes
+            while(mHost.getAccessToken() == "")
+            {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            mHost.setPlaylists(new Playlist(spotify.getPlaylist(mHost.getUserID(), mHost.getPlaylistId()).tracks.items));
+            isInit = true;
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+        {
                 //Refresh view
                 runOnUiThread(new Runnable()
                 {
                     @Override
                     public void run() {
-                       adapter.refreshWithNewData(mUser.getPlaylists().getSongs());
+                       adapter.refreshWithNewData(mHost.getPlaylists().getSongs());
                     }
                 });
-            }
+        }
 
+
+    }
+
+    public void refreshPlaylist()
+    {
+
+        //Download new playlist
+        spotify.getPlaylist(mHost.getUserID(), mHost.getPlaylistId(), new Callback<kaaes.spotify.webapi.android.models.Playlist>() {
             @Override
-            public void failure(RetrofitError error)
-            {
-                //Inform user that playlist could not be found.
+            public void success(kaaes.spotify.webapi.android.models.Playlist playlist, Response response) {
+                mHost.setPlaylists(new Playlist(playlist.tracks.items));
+
+                //Refresh view
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        displayError();
-                    }
-                });
-
-            }
-
-        });
-    }
-
-    public void findGatherPlaylist()
-    {
-        //Gather host's id
-        spotify.getMe(new Callback<kaaes.spotify.webapi.android.models.User>() {
-            @Override
-            public void success(final kaaes.spotify.webapi.android.models.User user, Response response)
-            {
-                String playlistId;
-                mUser.setUserID(user.id);
-
-                //Once you have host id use it to find his/her gather playlist
-                spotify.getPlaylists(mUser.getUserID(), new Callback<Pager<kaaes.spotify.webapi.android.models.Playlist>>() {
-                    @Override
-                    public void success(Pager<kaaes.spotify.webapi.android.models.Playlist> playlistPager, Response response)
-                    {
-                        List<kaaes.spotify.webapi.android.models.Playlist> list = playlistPager.items;
-
-                        for(kaaes.spotify.webapi.android.models.Playlist p: list)
-                        {
-                            //Wait until we find gather playlist id and then fill the playlist
-                             if(p.name.equals("gather"))
-                            {
-                                mUser.getPlaylists().setPlaylistId(p.id);
-                                fillPlaylist();
-                                Log.d("FOUND IT", p.id);
-                                return;
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error)
-                    {
-
+                        adapter.refreshWithNewData(mHost.getPlaylists().getSongs());
                     }
                 });
             }
@@ -207,12 +182,77 @@ public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
             }
         });
 
-
     }
 
-    public void displayError()
+
+
+    //This method is called to begin the spotify authentication process
+    public void authenticateSpotifyAPI()
     {
-        Toast.makeText(this, "Could not find playlist.", Toast.LENGTH_LONG).show();
+        AuthenticationRequest.Builder builder =
+                new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+
+        builder.setScopes(new String[]{"playlist-modify-public","streaming"});
+        AuthenticationRequest request = builder.build();
+
+        AuthenticationClient.openLoginActivity(this, AUTH_REQUEST_CODE, request);
+
     }
 
+    //This method defines what happens after our authentication request receives a response
+    //If successful store the user's access token
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        // Check if result comes from the correct activity
+        if (requestCode == AUTH_REQUEST_CODE) {
+            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+
+            switch (response.getType()) {
+                // Response was successful and contains auth token
+                case TOKEN:
+                    // Handle successful response
+                    // Store Host's access token
+                    api.setAccessToken(response.getAccessToken());
+                    mHost.setAccessToken(response.getAccessToken());
+                    break;
+
+                // Auth flow returned an error
+                case ERROR:
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(HostMusicPlaylistHomeActivity.this, "Could not authenticate.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    break;
+
+                // Most likely auth flow was cancelled
+                default:
+                    // Handle other cases
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(isInit)
+            refreshPlaylist();
+    }
+
+    @OnClick (R.id.searchTab)
+    public void startSearchActivity(View view)
+    {
+        startActivity(new Intent(this, SearchForSongActivity.class));
+    }
+
+    @OnClick (R.id.editPlaylistButton)
+    public void startEditPlaylistsActivity(View view)
+    {
+        Intent intent = new Intent(this, EditPlaylistsActivity.class);
+        startActivity(intent);
+
+    }
 }

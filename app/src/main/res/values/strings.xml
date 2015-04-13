@@ -14,6 +14,9 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="title_activity_host_music_playlist_home">HostMusicPlaylistHomeActivity</string>
+    <string name="title_activity_search_for_song_playlist">searchForSongPlaylist</string>
+    <string name="title_activity_edit_playlist">EditPlaylistActivity</string>
+    <string name="title_activity_edit_playlists">EditPlaylistsActivity</string>
 
 
 </resources>

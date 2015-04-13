@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Gather"
-        android:id="@+id/addSongLayout"
+        android:id="@+id/titleBar"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -24,8 +24,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/addSongLayout"
-        android:id="@+id/linearLayout2">
+        android:layout_below="@+id/titleBar"
+        android:id="@+id/searchBar">
 
         <TextView
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerView"
-        android:layout_below="@+id/linearLayout2"
+        android:layout_below="@+id/searchBar"
         android:layout_above="@+id/tabsLayout"/>
 
     <LinearLayout
@@ -57,27 +57,29 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit "
+            android:text="Now Playling"
             android:background="#40ffffff"
-            android:id="@+id/editPlaylistButton"
+            android:id="@+id/button5"
             android:layout_weight="1"
-            />
+            android:backgroundTint="@android:color/holo_red_light"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Search"
             android:background="#40ffffff"
-            android:id="@+id/searchButton"
+            android:id="@+id/searchTab"
             android:layout_weight="1"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Now Playling"
+            android:text="Edit "
             android:background="#40ffffff"
-            android:id="@+id/button5"
-            android:layout_weight="1"/>
+            android:id="@+id/editPlaylistButton"
+            android:layout_weight="1"
+            />
+
     </LinearLayout>
 
 
