@@ -5,15 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
 
-import com.parse.Parse;
-import com.parse.ParseObject;
-
 public class WelcomeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+    }
+
+    public void onBackPressed() {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
     }
 
     public void signIn(View view) {

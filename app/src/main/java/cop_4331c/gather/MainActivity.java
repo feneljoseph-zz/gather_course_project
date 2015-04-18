@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 
@@ -68,6 +69,23 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
+    int backButtonCount = 0;
+
+    public void onBackPressed() {
+        if(backButtonCount >= 1)
+        {
+            backButtonCount = 0;
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,10 +100,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             case R.id.main_search:
                 return true;
             case R.id.main_account_info:
+                startActivity(new Intent(MainActivity.this,AccountInfoActivity.class));
                 return true;
             case R.id.main_sign_out:
                 ParseUser.getCurrentUser().logOut();
-                startActivity(new Intent(MainActivity.this, DispatchActivity.class));
+                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

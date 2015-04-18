@@ -22,7 +22,7 @@ public class SignInActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        usernameInput = (EditText) findViewById(R.id.textUsernameLogin);
+        usernameInput = (EditText) findViewById(R.id.textEmailLogin);
         passwordInput = (EditText) findViewById(R.id.textPasswordLogin);
 
         findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
@@ -68,7 +68,7 @@ public class SignInActivity extends ActionBarActivity {
                             Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         } else {
                             // Start an intent for the dispatch activity
-                            Intent intent = new Intent(SignInActivity.this, DispatchActivity.class);
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
