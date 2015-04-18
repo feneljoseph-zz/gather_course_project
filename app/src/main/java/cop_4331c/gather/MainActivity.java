@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +27,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     SectionsPagerAdapter mSectionsPagerAdapter;
 
     ViewPager mViewPager;
+
+    private TextView Name;
+    private TextView userName;
+    private TextView phoneNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    int backButtonCount = 0;
+    private int backButtonCount = 0;
 
     public void onBackPressed() {
         if(backButtonCount >= 1)
@@ -100,7 +104,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             case R.id.main_search:
                 return true;
             case R.id.main_account_info:
-                startActivity(new Intent(MainActivity.this,AccountInfoActivity.class));
                 return true;
             case R.id.main_sign_out:
                 ParseUser.getCurrentUser().logOut();
@@ -138,14 +141,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+
+            switch(position) {
+                case 0:
+                    return new EventFragment();
+                case 1:
+                    return new ExchangesFragment();
+                case 2:
+                    return new ProfileFragment();
+                default:
+                    return null;
+            }
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 3;
         }
 
@@ -164,10 +174,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+    public static class EventFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -178,23 +185,105 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static EventFragment newInstance(int sectionNumber) {
+            EventFragment fragment = new EventFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
 
-        public PlaceholderFragment() {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_event, container, false);
+            return rootView;
+        }
+    }
+
+    public static class ExchangesFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static ExchangesFragment newInstance(int sectionNumber) {
+            ExchangesFragment fragment = new ExchangesFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_exchanges, container, false);
             return rootView;
         }
+    }
+
+    public class ProfileFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        private ProfileFragment newInstance(int sectionNumber) {
+            ProfileFragment fragment = new ProfileFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            ParseUser user = null;
+
+            try {
+                user = ParseUser.getCurrentUser();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+            if (user != null) {
+                Name = (TextView) findViewById(R.id.textNameProfile);
+                if ( Name == null ) {
+                    System.out.println("Name is null");
+                }
+                //fillTextView(R.id.textNameProfile, (String) user.get("firstName").toString());
+
+                //userName = (TextView) findViewById(R.id.textUsernameProfile);
+                //userName.setText(user.getUsername().toString());
+
+                //phoneNumber = (TextView) findViewById(R.id.textPhoneNumberProfile);
+                //phoneNumber.setText((CharSequence) user.get("phoneNumber"));
+
+                System.out.println(user.get("firstName") + " " + user.get("lastName"));
+                System.out.println(user);
+            }
+
+            View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+            return rootView;
+        }
+    }
+
+    public void fillTextView (int tViewID, String text) {
+        TextView temp = (TextView) findViewById(tViewID);
+        temp.setText(text);
     }
 
 }
