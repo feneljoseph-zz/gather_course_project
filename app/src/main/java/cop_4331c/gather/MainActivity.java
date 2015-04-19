@@ -138,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
                     ArrayAdapter<String> eventsArrayAdapter =
                             new ArrayAdapter<String>(getApplicationContext(),
-                                    R.layout.user_list_item, events);
+                                    R.layout.event_list_item, R.id.eventList_name, events);
                     eventsListView.setAdapter(eventsArrayAdapter);
                     eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -391,39 +391,39 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         temp.setText(text);
     }
 
-    public static class EventAdapter extends ArrayAdapter<ParseObject> {
-
-        private static class ViewHolder {
-            private TextView itemView;
-        }
-
-        public EventAdapter(Context context, int textViewResourceId, ArrayList<ParseObject> items) {
-            super(context, textViewResourceId, items);
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = LayoutInflater.from(this.getContext())
-                        .inflate(R.layout.listview_association, parent, false);
-
-                ViewHolder viewHolder = new ViewHolder();
-                viewHolder.itemView = (TextView) convertView.findViewById(R.id.ItemView);
-
-                convertView.setTag(viewHolder);
-            } else {
-                ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            EventAdapter item = getItem(position);
-            if (item!= null) {
-                // My layout has only one TextView
-                // do whatever you want with your string and long
-                viewHolder.itemView.setText(String.format("%s %d", item.reason, item.long_val));
-            }
-
-            return view;
-        }
-    }
+//    public static class EventAdapter extends ArrayAdapter<ParseObject> {
+//
+//        private static class ViewHolder {
+//            private TextView itemView;
+//        }
+//
+//        public EventAdapter(Context context, int textViewResourceId, ArrayList<ParseObject> items) {
+//            super(context, textViewResourceId, items);
+//        }
+//
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//
+//            if (convertView == null) {
+//                convertView = LayoutInflater.from(this.getContext())
+//                        .inflate(R.layout.listview_association, parent, false);
+//
+//                ViewHolder viewHolder = new ViewHolder();
+//                viewHolder.itemView = (TextView) convertView.findViewById(R.id.ItemView);
+//
+//                convertView.setTag(viewHolder);
+//            } else {
+//                ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+//            }
+//
+//            EventAdapter item = getItem(position);
+//            if (item!= null) {
+//                // My layout has only one TextView
+//                // do whatever you want with your string and long
+//                viewHolder.itemView.setText(String.format("%s %d", item.reason, item.long_val));
+//            }
+//
+//            return view;
+//        }
+//    }
 
 }
