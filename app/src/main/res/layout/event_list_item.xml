@@ -5,13 +5,17 @@
     android:id="@+id/event_card_view"
     android:layout_gravity="center"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     card_view:cardCornerRadius="2dp"
-    android:layout_margin="5dp"
-    android:background="">
+    android:background="#ff202020"
+    android:layout_margin="15dp"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/eventList_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:textColor="#ff202020"
+        android:textSize="20sp"
+        android:padding="10dp"/>
 </android.support.v7.widget.CardView>

@@ -361,26 +361,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            ParseUser user = null;
-
-            try {
-                user = ParseUser.getCurrentUser();
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-
-            if (user != null) {
-                Name = (TextView) findViewById(R.id.textNameProfile);
-
-                //fillTextView(R.id.textNameProfile, (String) user.get("firstName").toString());
-
-                //userName = (TextView) findViewById(R.id.textUsernameProfile);
-                //userName.setText(user.getUsername().toString());
-
-                //phoneNumber = (TextView) findViewById(R.id.textPhoneNumberProfile);
-                //phoneNumber.setText((CharSequence) user.get("phoneNumber"));
-            }
-
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
             return rootView;
         }
