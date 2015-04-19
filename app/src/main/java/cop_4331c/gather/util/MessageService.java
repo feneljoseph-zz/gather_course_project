@@ -20,7 +20,7 @@ public class MessageService extends Service implements SinchClientListener {
     private static final String APP_KEY = "9a548027-88d6-49e3-b762-a5f2dafa9659";
     private static final String APP_SECRET = "yZpn3bKEVkKW+UtvEKx7eA==";
     private static final String ENVIRONMENT = "sandbox.sinch.com";
-    
+
     private final MessageServiceInterface serviceInterface = new MessageServiceInterface();
 
     private SinchClient sinchClient = null;
@@ -75,9 +75,11 @@ public class MessageService extends Service implements SinchClientListener {
     @Override
     public void onLogMessage(int level, String area, String message) {}
     @Override
+
     public IBinder onBind(Intent intent) {
         return serviceInterface;
     }
+
     public void sendMessage(String recipientUserId, String textBody) {
         if (messageClient != null) {
             WritableMessage message = new WritableMessage(recipientUserId, textBody);

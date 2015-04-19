@@ -37,7 +37,7 @@ public class MessagingActivity  extends Activity {
     private EditText messageBodyField;
     private String messageBody;
     private MessageService.MessageServiceInterface messageService;
-    private MyMessageClientListener messageClientListener;
+    private MyMessageClientListener messageClientListener = new MyMessageClientListener();
     private String currentUserId;
     private ServiceConnection serviceConnection = new MyServiceConnection();
     private MessageAdapter messageAdapter;
@@ -85,8 +85,8 @@ public class MessagingActivity  extends Activity {
     private class MyServiceConnection implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            messageService.addMessageClientListener(messageClientListener);
             messageService = (MessageService.MessageServiceInterface) iBinder;
+            messageService.addMessageClientListener(messageClientListener);
         }
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
