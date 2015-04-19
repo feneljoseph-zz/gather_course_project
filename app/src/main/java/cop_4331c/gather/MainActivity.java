@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -111,6 +113,39 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Error loading user list",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        final ArrayList<String> events = new ArrayList<String>();
+        ParseQuery eventQuery = new ParseQuery("Event");
+        eventQuery.whereEqualTo("Attendees", ParseUser.getCurrentUser().get("objectId").toString());
+
+        query.findInBackground(new FindCallback<ParseUser>()
+        {
+            public void done(List<ParseUser> eventList, com.parse.ParseException e)
+            {
+                if(e == null) {
+                    for (int i=0; i<eventList.size(); i++) {
+                        events.add(eventList.get(i).toString());
+                        System.out.println(eventList.get(i).toString());
+                    }
+                    ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
+                    ArrayAdapter<String> eventsArrayAdapter =
+                            new ArrayAdapter<String>(getApplicationContext(),
+                                    R.layout.user_list_item, names);
+                    eventsListView.setAdapter(eventsArrayAdapter);
+                    eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> a, View v, int i, long l)
+                        {
+                            openConversation(events, i);
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error loading event list",
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -332,9 +367,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             if (user != null) {
                 Name = (TextView) findViewById(R.id.textNameProfile);
-                if ( Name == null ) {
-                    System.out.println("Name is null");
-                }
+
                 //fillTextView(R.id.textNameProfile, (String) user.get("firstName").toString());
 
                 //userName = (TextView) findViewById(R.id.textUsernameProfile);
@@ -342,9 +375,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                 //phoneNumber = (TextView) findViewById(R.id.textPhoneNumberProfile);
                 //phoneNumber.setText((CharSequence) user.get("phoneNumber"));
-
-                System.out.println(user.get("firstName") + " " + user.get("lastName"));
-                System.out.println(user);
             }
 
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
