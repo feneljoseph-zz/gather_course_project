@@ -9,15 +9,16 @@
             android:layout_height="48dp"
         android:paddingLeft="10dp">
 
-        <EditText
+        <TextView
                 android:id="@+id/txtRecipient"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Recipient"
-            android:inputType="textPersonName">
+            android:inputType="textPersonName"
+            android:textSize="20sp">
 
             <requestFocus/>
-        </EditText>
+        </TextView>
     </RelativeLayout>
 
     <ListView

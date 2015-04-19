@@ -86,16 +86,19 @@ public class MessageService extends Service implements SinchClientListener {
             messageClient.send(message);
         }
     }
+
     public void addMessageClientListener(MessageClientListener listener) {
         if (messageClient != null) {
             messageClient.addMessageClientListener(listener);
         }
     }
+
     public void removeMessageClientListener(MessageClientListener listener) {
         if (messageClient != null) {
             messageClient.removeMessageClientListener(listener);
         }
     }
+
     @Override
     public void onDestroy() {
         sinchClient.stopListeningOnActiveConnection();
