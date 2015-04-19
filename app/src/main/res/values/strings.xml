@@ -70,4 +70,7 @@
     <string name="submit_name">Submit Name</string>
     <string name="preview">preview</string>
 
+    <!-- Sinch Strings -->
+    <string name="app_name">Sinch Messaging</string>
+
 </resources>
