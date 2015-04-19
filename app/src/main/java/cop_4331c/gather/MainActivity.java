@@ -94,60 +94,67 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         {
             public void done(List<ParseUser> userList, com.parse.ParseException e)
             {
-                if (e == null) {
-                    for (int i=0; i<userList.size(); i++) {
-                        names.add(userList.get(i).getUsername().toString());
-                    }
-                    ListView usersListView = (ListView)findViewById(R.id.sinchUserLayout);
-                    ArrayAdapter<String> namesArrayAdapter =
-                            new ArrayAdapter<String>(getApplicationContext(),
-                                    R.layout.user_list_item, names);
-                    usersListView.setAdapter(namesArrayAdapter);
-                    usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> a, View v, int i, long l)
-                        {
-                            openConversation(names, i);
-                        }
-                    });
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Error loading user list",
-                            Toast.LENGTH_LONG).show();
+            if (e == null) {
+                for (int i=0; i<userList.size(); i++) {
+                    names.add(userList.get(i).getUsername().toString());
                 }
+                ListView usersListView = (ListView)findViewById(R.id.sinchUserLayout);
+                ArrayAdapter<String> namesArrayAdapter =
+                        new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.user_list_item, names);
+                usersListView.setAdapter(namesArrayAdapter);
+                usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> a, View v, int i, long l)
+                    {
+                        openConversation(names, i);
+                    }
+                });
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Error loading user list",
+                        Toast.LENGTH_LONG).show();
+            }
             }
         });
 
         final ArrayList<String> events = new ArrayList<String>();
+        ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery eventQuery = new ParseQuery("Event");
-        eventQuery.whereEqualTo("Attendees", ParseUser.getCurrentUser().get("objectId").toString());
+
+        if (currentUser == null) {
+            System.out.println("currentUser is NULL");
+        } else {
+            System.out.println(currentUser.getUsername().toString());
+        }
+        //eventQuery.whereEqualTo("Attendees", currentUser.get("objectId").toString());
 
         query.findInBackground(new FindCallback<ParseUser>()
         {
             public void done(List<ParseUser> eventList, com.parse.ParseException e)
             {
-                if(e == null) {
-                    for (int i=0; i<eventList.size(); i++) {
-                        events.add(eventList.get(i).toString());
-                        System.out.println(eventList.get(i).toString());
-                    }
-                    ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
-                    ArrayAdapter<String> eventsArrayAdapter =
-                            new ArrayAdapter<String>(getApplicationContext(),
-                                    R.layout.user_list_item, names);
-                    eventsListView.setAdapter(eventsArrayAdapter);
-                    eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> a, View v, int i, long l)
-                        {
-                            openConversation(events, i);
-                        }
-                    });
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Error loading event list",
-                            Toast.LENGTH_LONG).show();
+            if(e == null) {
+                for (int i=0; i<eventList.size(); i++) {
+                    events.add(eventList.get(i).toString());
+                    System.out.println(eventList.get(i).toString());
                 }
+                ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
+                ArrayAdapter<String> eventsArrayAdapter =
+                        new ArrayAdapter<String>(getApplicationContext(),
+                                R.layout.user_list_item, names);
+                eventsListView.setAdapter(eventsArrayAdapter);
+                eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> a, View v, int i, long l)
+                    {
+                        openConversation(events, i);
+                    }
+                });
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Error loading event list",
+                        Toast.LENGTH_LONG).show();
+            }
             }
         });
 
