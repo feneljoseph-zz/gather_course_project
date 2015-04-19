@@ -6,7 +6,8 @@
                 android:padding="10dp">
 
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+        android:id="@+id/message_left_layout">
 
         <TextView
                 android:id="@+id/txtSender"
@@ -19,13 +20,12 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingBottom="6dp"
-                android:textColor="@android:color/black" android:textStyle="bold"/>
+            android:textStyle="bold"/>
 
         <TextView
                 android:id="@+id/txtDate"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/sinch_purple"
-                android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="2dp"
                 android:paddingBottom="6dp"

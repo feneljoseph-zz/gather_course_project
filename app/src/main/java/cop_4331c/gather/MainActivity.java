@@ -116,8 +116,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
         });
 
-        final Intent serviceIntent = new Intent(getApplicationContext(), MessageService.class);
-        startService(serviceIntent);
     }
 
     public void openConversation(ArrayList<String> names, int pos) {
@@ -128,7 +126,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             public void done(List<ParseUser> user, com.parse.ParseException e)
             {
                 if (e == null) {
-                    //start the messaging activity
+                    Intent openConversation = new Intent(getApplicationContext(), MessagingActivity.class);
+                    openConversation.putExtra("RECIPIENT_ID", user.get(0).getObjectId());
+                    startActivity(openConversation);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Error finding that user",
@@ -171,6 +171,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             case R.id.main_account_info:
                 return true;
             case R.id.main_sign_out:
+                stopService(new Intent(this, MessageService.class));
                 ParseUser.getCurrentUser().logOut();
                 startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
                 return true;
@@ -195,7 +196,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     public void onDestroy() {
-        stopService(new Intent(this, MessageService.class));
         super.onDestroy();
     }
 

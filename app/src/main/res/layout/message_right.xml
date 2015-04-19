@@ -6,7 +6,8 @@
                 android:padding="10dp">
 
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="10dp"
+        android:id="@+id/message_right_layout">
         <TextView
                 android:id="@+id/txtSender"
                 android:layout_width="wrap_content"
@@ -18,13 +19,12 @@
                 android:layout_alignParentRight="true"
                 android:paddingRight="10dp"
                 android:paddingBottom="6dp"
-                android:textColor="@android:color/black" android:textStyle="bold"/>
+            android:textStyle="bold"/>
 
         <TextView
                 android:id="@+id/txtDate"
                 android:layout_alignParentLeft="true"
-                android:textColor="@color/sinch_purple"
-                android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="2dp"
                 android:paddingBottom="6dp"
@@ -48,10 +48,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
+                android:textSize="14sp"
                     android:text="Hello, how are you?"
-                    />
+                android:textColor="#ff000000" />
 
         </RelativeLayout>
     </RelativeLayout>

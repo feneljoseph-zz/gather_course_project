@@ -15,6 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import cop_4331c.gather.util.MessageService;
+
 public class SignUpActivity extends ActionBarActivity {
     private EditText firstnameView;
     private EditText lastnameView;
@@ -110,6 +112,9 @@ public class SignUpActivity extends ActionBarActivity {
                         // Start an intent for the dispatch activity
                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        final Intent serviceIntent = new Intent(getApplicationContext(), MessageService.class);
+                        startService(serviceIntent);
                         startActivity(intent);
                     }
                 }
