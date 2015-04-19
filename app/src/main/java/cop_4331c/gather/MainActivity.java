@@ -1,5 +1,7 @@
 package cop_4331c.gather;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Intent;
@@ -16,10 +18,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import cop_4331c.gather.util.MessageService;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -70,11 +79,67 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     actionBar.newTab()
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
+
         }
+
+        String currentUserId = ParseUser.getCurrentUser().getObjectId();
+        final ArrayList<String> names = new ArrayList<String>();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+
+        //don't include yourself
+        query.whereNotEqualTo("objectId", currentUserId);
+        query.findInBackground(new FindCallback<ParseUser>()
+        {
+            public void done(List<ParseUser> userList, com.parse.ParseException e)
+            {
+                if (e == null) {
+                    for (int i=0; i<userList.size(); i++) {
+                        names.add(userList.get(i).getUsername().toString());
+                    }
+                    ListView usersListView = (ListView)findViewById(R.id.sinchUserLayout);
+                    ArrayAdapter<String> namesArrayAdapter =
+                            new ArrayAdapter<String>(getApplicationContext(),
+                                    R.layout.user_list_item, names);
+                    usersListView.setAdapter(namesArrayAdapter);
+                    usersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> a, View v, int i, long l)
+                        {
+                            openConversation(names, i);
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error loading user list",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        final Intent serviceIntent = new Intent(getApplicationContext(), MessageService.class);
+        startService(serviceIntent);
     }
 
-    private int backButtonCount = 0;
+    public void openConversation(ArrayList<String> names, int pos) {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", names.get(pos));
+        query.findInBackground(new FindCallback<ParseUser>() {
 
+            public void done(List<ParseUser> user, com.parse.ParseException e)
+            {
+                if (e == null) {
+                    //start the messaging activity
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error finding that user",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    private int backButtonCount = 0;
     public void onBackPressed() {
         if(backButtonCount >= 1)
         {
@@ -127,6 +192,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    public void onDestroy() {
+        stopService(new Intent(this, MessageService.class));
+        super.onDestroy();
     }
 
     /**
@@ -224,6 +294,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_exchanges, container, false);
+
             return rootView;
         }
     }

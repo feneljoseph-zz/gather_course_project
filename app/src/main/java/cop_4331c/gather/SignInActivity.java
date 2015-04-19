@@ -12,6 +12,8 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import cop_4331c.gather.util.MessageService;
+
 public class SignInActivity extends ActionBarActivity {
 
     private EditText usernameInput;
