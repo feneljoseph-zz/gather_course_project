@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -86,6 +87,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         String currentUserId = ParseUser.getCurrentUser().getObjectId();
         final ArrayList<String> names = new ArrayList<String>();
+
+        final ArrayList<String> events = new ArrayList<String>();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
         //don't include yourself
@@ -118,43 +123,35 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
         });
 
-        final ArrayList<String> events = new ArrayList<String>();
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ParseQuery eventQuery = new ParseQuery("Event");
-
-        if (currentUser == null) {
-            System.out.println("currentUser is NULL");
-        } else {
-            System.out.println(currentUser.getUsername().toString());
-        }
-        //eventQuery.whereEqualTo("Attendees", currentUser.get("objectId").toString());
-
-        query.findInBackground(new FindCallback<ParseUser>()
+        ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
+        eventQuery.whereEqualTo("Attendees", currentUserId);
+        eventQuery.findInBackground(new FindCallback<ParseObject>()
         {
-            public void done(List<ParseUser> eventList, com.parse.ParseException e)
+            @Override
+            public void done(List eventList, com.parse.ParseException e)
             {
-            if(e == null) {
-                for (int i=0; i<eventList.size(); i++) {
-                    events.add(eventList.get(i).toString());
-                    System.out.println(eventList.get(i).toString());
-                }
-                ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
-                ArrayAdapter<String> eventsArrayAdapter =
-                        new ArrayAdapter<String>(getApplicationContext(),
-                                R.layout.user_list_item, names);
-                eventsListView.setAdapter(eventsArrayAdapter);
-                eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> a, View v, int i, long l)
-                    {
-                        openConversation(events, i);
+                if(e == null) {
+                    for (int i=0; i<eventList.size(); i++) {
+                        ParseObject temp = (ParseObject) eventList.get(i);
+                        events.add(temp.get("name").toString());
                     }
-                });
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Error loading event list",
-                        Toast.LENGTH_LONG).show();
-            }
+                    ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
+                    ArrayAdapter<String> eventsArrayAdapter =
+                            new ArrayAdapter<String>(getApplicationContext(),
+                                    R.layout.user_list_item, events);
+                    eventsListView.setAdapter(eventsArrayAdapter);
+                    eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> a, View v, int i, long l)
+                        {
+                            openConversation(events, i);
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error loading event list",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -392,6 +389,41 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void fillTextView (int tViewID, String text) {
         TextView temp = (TextView) findViewById(tViewID);
         temp.setText(text);
+    }
+
+    public static class EventAdapter extends ArrayAdapter<ParseObject> {
+
+        private static class ViewHolder {
+            private TextView itemView;
+        }
+
+        public EventAdapter(Context context, int textViewResourceId, ArrayList<ParseObject> items) {
+            super(context, textViewResourceId, items);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(this.getContext())
+                        .inflate(R.layout.listview_association, parent, false);
+
+                ViewHolder viewHolder = new ViewHolder();
+                viewHolder.itemView = (TextView) convertView.findViewById(R.id.ItemView);
+
+                convertView.setTag(viewHolder);
+            } else {
+                ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            EventAdapter item = getItem(position);
+            if (item!= null) {
+                // My layout has only one TextView
+                // do whatever you want with your string and long
+                viewHolder.itemView.setText(String.format("%s %d", item.reason, item.long_val));
+            }
+
+            return view;
+        }
     }
 
 }
