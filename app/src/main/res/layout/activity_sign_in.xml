@@ -9,7 +9,7 @@
     android:background="#ff676767">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollViewLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="false"
@@ -19,13 +19,13 @@
         android:layout_centerInParent="true">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayoutLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView"
+                android:id="@+id/textEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
@@ -34,7 +34,7 @@
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/textPasswordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
@@ -47,7 +47,7 @@
 
             <Button
                 style="?android:textAppearanceSmall"
-                android:id="@+id/button3"
+                android:id="@+id/buttonSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

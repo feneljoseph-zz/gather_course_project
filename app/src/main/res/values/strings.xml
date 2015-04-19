@@ -13,6 +13,42 @@
     <string name="title_activity_sign_in">Sign In</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="publishing_activity_title">Publish Event</string>
+    <string name="event_image_desc">Event picture</string>
+    <string name="social_media_label">Share Your Event</string>
+    <string name="social_media_info">Tell your friends about your event!</string>
+    <string name="social_media_text_hint">Hey, guys! Check out my event! #GETkRuNk</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_user_name">user_name</string>
+    <string name="facebook_image_desc">Facebook icon</string>
+    <string name="twitter">Twitter</string>
+    <string name="twitter_user_name">\@user_name</string>
+    <string name="twitter_image_desc">Twitter icon</string>
+    <string name="instagram">Instagram</string>
+    <string name="instagram_user_name">user_name</string>
+    <string name="instagram_image_desc">Instagram icon</string>
+    <string name="google_plus">Google+</string>
+    <string name="google_plus_user_name">user_name</string>
+    <string name="google_plus_image_desc">Google+ icon</string>
+    <string name="phrase">Now it\'s time to…</string>
+    <string name="title_activity_post_sign_in">Main menu</string>
+    <string name="edit_account">Edit account info</string>
+    <string name="goto_event_viewer">View Events</string>
+    <string name="title_activity_edit__account__info">Edit_Account_Info</string>
+    <string name="title_activity_main">Gather</string>
+    <string name="prompt_username">Username (Email address)</string>
+    <string name="prompt_first_name"> First Name</string>
+    <string name="prompt_last_name">Last Name</string>
+    <string name="prompt_phone_number">Phone Number</string>
+    <string name="prompt_verify">Verify Password</string>
+    <string name="update">Update</string>
+    <string name ="go_back">Go Back</string>
 
+    <string name="title_section1">Gatherings</string>
+    <string name="title_section2">Exchanges</string>
+    <string name="title_section3">Profile</string>
+
+    <string name="save_changes">SAVE CHANGES</string>
+    <string name="prompt_old_password">Old Password</string>
 
 </resources>
