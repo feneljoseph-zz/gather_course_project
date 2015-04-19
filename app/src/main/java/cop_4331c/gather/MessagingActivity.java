@@ -1,23 +1,20 @@
 package cop_4331c.gather;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.parse.ParseUser;
-
-import cop_4331c.gather.R;
 import cop_4331c.gather.util.MessageService;
 
-public class MessagingActivity extends ActionBarActivity {
+public class MessagingActivity extends Activity {
 
     private String recipientId;
     private EditText messageBodyField;
@@ -54,6 +51,7 @@ public class MessagingActivity extends ActionBarActivity {
             }
         });
     }
+
     //unbind the service when the activity is destroyed
     @Override
     public void onDestroy() {

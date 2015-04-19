@@ -107,6 +107,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cop_4331c.gather.MainActivity" />
         </activity>
+
+        <service android:name=".util.MessageService"
+            android:enabled="true" >
+            </service>
+
     </application>
 
 </manifest>
