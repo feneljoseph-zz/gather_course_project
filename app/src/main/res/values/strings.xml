@@ -11,8 +11,31 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_sign_in">Sign In</string>
+    <string name="title_activity_main">Gather</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+
+    <string name="title_activity_post_sign_in">Main menu</string>
+    <string name="edit_account">Edit account info</string>
+    <string name="goto_event_viewer">View Events</string>
+
+
+
+
+    <string name="title_section1">Gatherings</string>
+    <string name="title_section2">Exchanges</string>
+    <string name="title_section3">Profile</string>
+
+    <string name="save_changes">SAVE CHANGES</string>
+
+    <string name="prompt_username">Username (Email Address)</string>
+    <string name="prompt_first_name"> First Name</string>
+    <string name="prompt_last_name">Last Name</string>
+    <string name="prompt_phone_number">Phone Number (optional)</string>
+    <string name="prompt_verify">Verify Password</string>
+    <string name ="go_back">Go Back</string>
+    <string name="title_activity_new_features_list">new_features_list</string>
+
     <string name="publishing_activity_title">Publish Event</string>
     <string name="event_image_desc">Event picture</string>
     <string name="social_media_label">Share Your Event</string>
@@ -31,24 +54,24 @@
     <string name="google_plus_user_name">user_name</string>
     <string name="google_plus_image_desc">Google+ icon</string>
     <string name="phrase">Now it\'s time to…</string>
-    <string name="title_activity_post_sign_in">Main menu</string>
-    <string name="edit_account">Edit account info</string>
-    <string name="goto_event_viewer">View Events</string>
-    <string name="title_activity_edit__account__info">Edit_Account_Info</string>
-    <string name="title_activity_main">Gather</string>
-    <string name="prompt_username">Username (Email address)</string>
-    <string name="prompt_first_name"> First Name</string>
-    <string name="prompt_last_name">Last Name</string>
-    <string name="prompt_phone_number">Phone Number</string>
-    <string name="prompt_verify">Verify Password</string>
-    <string name="update">Update</string>
-    <string name ="go_back">Go Back</string>
+    <string name="feature_list_title">Feature List</string>
+    <string name="pick_venue_title">Pick a Venue</string>
+    <string name="or">or</string>
 
-    <string name="title_section1">Gatherings</string>
-    <string name="title_section2">Exchanges</string>
-    <string name="title_section3">Profile</string>
+    <string name="name_event">Name Event</string>
+    <string name="pick_venue">Pick a venue</string>
+    <string name="send_invites">Send invites</string>
+    <string name="create_playlist">Create a playlist</string>
+    <string name="send_message">Track Progress</string>
+    <string name="post_photos">Social Media</string>
+    <string name="get_started">Let\'s get started...</string>
+    <string name="title_activity_name_event">name_event</string>
 
-    <string name="save_changes">SAVE CHANGES</string>
-    <string name="prompt_old_password">Old Password</string>
+    <string name="enter_name">Enter a name</string>
+    <string name="creator_name">Creator\'s name</string>
+    <string name="name_preview">Event Name Preview</string>
+    <string name="submit_name">Submit Name</string>
+    <string name="preview">preview</string>
+    <string name="title_activity_messaging">MessagingActivity</string>
 
 </resources>

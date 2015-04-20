@@ -1,12 +1,8 @@
 package cop_4331c.gather;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +12,6 @@ import com.parse.ParseUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.microedition.khronos.egl.EGLDisplay;
-
 
 public class AccountInfoActivity extends ActionBarActivity {
 
@@ -70,25 +63,26 @@ public class AccountInfoActivity extends ActionBarActivity {
                     user.put("phoneNumber", phoneNumber.getText().toString());
                 password = (EditText) findViewById(R.id.textPasswordLogin);
                 verifyPassword = (EditText) findViewById(R.id.textPasswordVerify);
-                if(password.getText().length()>6 && isMatching(password, verifyPassword)) {
+
+                if(password.getText().length()>6 && (password.getText().toString().compareTo(verifyPassword.getText().toString()) == 0)) {
                     user.setPassword(password.getText().toString());
                     //save to parse
                     user.saveInBackground();
                     Toast.makeText(getApplicationContext(), "User Info Was Updated", Toast.LENGTH_LONG)
                     .show();
                 }
-                else if (password.getText().length()<6 && password.getText().length()>0 && !(isMatching(password,verifyPassword)))
-                {
-                    Toast.makeText(getApplicationContext(),"Make sure your passwords match and are over" +
-                            " 6 characters long!",Toast.LENGTH_LONG).show();
-                }
+
                 else if(password.getText().length()==0)
                 {
                     user.saveInBackground();
                     Toast.makeText(getApplicationContext(), "User Info Was Updated", Toast.LENGTH_LONG)
                         .show();
                 }
-
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Make sure your passwords match and are over" +
+                            " 6 characters long!",Toast.LENGTH_LONG).show();
+                }
             }
 
         });

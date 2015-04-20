@@ -6,6 +6,8 @@ import android.os.Bundle;
 import com.parse.Parse;
 import com.parse.ParseUser;
 import android.content.Intent;
+import cop_4331c.gather.util.MessageService;
+
 
 public class DispatchActivity extends Activity {
 
@@ -20,9 +22,12 @@ public class DispatchActivity extends Activity {
 
         //Check if application is signed in
         if (ParseUser.getCurrentUser() != null) {
-            startActivity(new Intent(this, PostSignInActivity.class));
+            final Intent serviceIntent = new Intent(getApplicationContext(), MessageService.class);
+            startActivity(new Intent(this, MainActivity.class));
+            startService(serviceIntent);
         } else {
             startActivity(new Intent(this, WelcomeActivity.class));
         }
     }
 }
+

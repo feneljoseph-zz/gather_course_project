@@ -2,22 +2,16 @@ package cop_4331c.gather;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.facebook.AppEventsLogger;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -25,20 +19,15 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
 import com.facebook.widget.FacebookDialog;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.PlusShare;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Map;
 import java.util.UUID;
 
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -48,7 +37,10 @@ public class PublishEventActivity extends Activity{
     ImageButton facebookShareButton;
     ImageButton twitterShareButton;
     ImageButton googlePlusShareButton;
-    ImageButton instagramShareButton;
+    Twitter twitter;
+    // Shared Preferences
+    //private static SharedPreferences mSharedPreferences = getApplicationContext().getSharedPreferences(
+    //       "MyPref", 0);
 
     public static final String FACEBOOK_APP_ID = "928197940546370";
 
@@ -152,31 +144,40 @@ public class PublishEventActivity extends Activity{
                 int duration = Toast.LENGTH_SHORT;
 
                 //Setting up a toast to display if twitter has an error updating status
-                final CharSequence failText = "Twitter be having dem problems.";
+                final CharSequence failText = "Twitter is not working.";
                 final Toast failToast = Toast.makeText(context, failText, duration);
 
                 //Setting up a toast to display if twitter successfully updates status
                 final CharSequence successText = "Twitter status updated.";
                 final Toast successToast = Toast.makeText(context, successText, duration);
 
+                String PREFERENCE_NAME = "twitter_oauth";
+                final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
+                final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
+                final String PREF_KEY_TWITTER_LOGIN = "isTwitterLogedIn";
 
-                final String ACCESS_TOKEN = "390460572-ScZPBHtfa36KZ2wezaCTJ6Ne2USNM6E108INY5MR";
-                final String ACCESS_TOKEN_SECRET = "MdN8LDgq6izsPHehLXTjDFwuYvSAcJDqasAG8qhwltjgG";
-                final String CONSUMER_KEY = "OBBhgIxMJB2a9aqqoYqqZYphm";
-                final String CONSUMER_SECRET = "gqKwoFyg3PlYEJHIo2GLzoOSoGjBFxtnLrI09DX0htxihQjDkU";
+                // Twitter oauth urls
+                final String URL_TWITTER_AUTH = "auth_url";
+                final String URL_TWITTER_OAUTH_VERIFIER = "oauth_verifier";
+                final String URL_TWITTER_OAUTH_TOKEN = "oauth_token";
 
                 new Thread(new Runnable() {
                     public void run() {
                         boolean success = true;
 
-                        ConfigurationBuilder cb = new ConfigurationBuilder();
-                        cb.setDebugEnabled(true)
+                        LoginToTwitter();
+
+                        /*ConfigurationBuilder builder = new ConfigurationBuilder();
+                        builder.setDebugEnabled(true)
                                 .setOAuthConsumerKey(CONSUMER_KEY)
                                 .setOAuthConsumerSecret(CONSUMER_SECRET)
                                 .setOAuthAccessToken(ACCESS_TOKEN)
                                 .setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
-                        TwitterFactory tf = new TwitterFactory(cb.build());
-                        Twitter twitter = tf.getInstance();
+                        builder.setOAuthConsumerKey(CONSUMER_KEY);
+                        builder.setOAuthConsumerSecret(CONSUMER_SECRET);
+                        TwitterFactory tf = new TwitterFactory(builder.build());
+                        Twitter twitter = tf.getInstance();*/
+
                         String randomFakeURL = UUID.randomUUID().toString();
                         String message = "THIS IS A TEST. [user made event description] tinyURL:[" + randomFakeURL + "]";
 
@@ -211,6 +212,39 @@ public class PublishEventActivity extends Activity{
                 startActivityForResult(shareIntent, 0);
             }
         });
+    }
+
+    /**
+     * Check user already logged in your application using twitter Login flag is
+     * fetched from Shared Preferences
+     * */
+    /*private boolean isTwitterLoggedInAlready() {
+        // return twitter login status from Shared Preferences
+        return mSharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+    }*/
+
+    private void LoginToTwitter() {
+        final String ACCESS_TOKEN = "390460572-ScZPBHtfa36KZ2wezaCTJ6Ne2USNM6E108INY5MR";
+        final String ACCESS_TOKEN_SECRET = "MdN8LDgq6izsPHehLXTjDFwuYvSAcJDqasAG8qhwltjgG";
+        final String CONSUMER_KEY = "OBBhgIxMJB2a9aqqoYqqZYphm";
+        final String CONSUMER_SECRET = "gqKwoFyg3PlYEJHIo2GLzoOSoGjBFxtnLrI09DX0htxihQjDkU";
+        final String TWITTER_CALLBACK_URL = "https://twitter.com/";
+
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setOAuthConsumerKey(CONSUMER_KEY);
+        builder.setOAuthConsumerSecret(CONSUMER_SECRET);
+
+        TwitterFactory tf = new TwitterFactory(builder.build());
+        twitter = tf.getInstance();
+
+        try {
+            RequestToken requestToken = twitter
+                    .getOAuthRequestToken(TWITTER_CALLBACK_URL);
+            this.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+                    .parse(requestToken.getAuthenticationURL())));
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
     }
 
 
