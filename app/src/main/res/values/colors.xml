@@ -6,6 +6,6 @@
     <color name="off_white">#fffafafa</color>
     <color name="dark_gray">#ffb3b3b3</color>
 
-    <color name="EventCard">#20202020</color>
+    <color name="event_details">#ff777777</color>
 
 </resources>

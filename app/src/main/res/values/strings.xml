@@ -70,4 +70,7 @@
     <string name="submit_name">Submit Name</string>
     <string name="preview">preview</string>
 
+    <!-- Event Fragment Strings -->
+    <string name="new_event">CREATE NEW EVENT</string>
+
 </resources>

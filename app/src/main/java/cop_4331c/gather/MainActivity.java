@@ -1,8 +1,12 @@
 package cop_4331c.gather;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +48,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private TextView userName;
     private TextView phoneNumber;
 
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         String currentUserId = ParseUser.getCurrentUser().getObjectId();
         final ArrayList<String> names = new ArrayList<String>();
 
-        final ArrayList<String> events = new ArrayList<String>();
+        final ArrayList<ParseObject> events = new ArrayList<ParseObject>();
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -133,18 +138,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 if(e == null) {
                     for (int i=0; i<eventList.size(); i++) {
                         ParseObject temp = (ParseObject) eventList.get(i);
-                        events.add(temp.get("name").toString());
+                        events.add(temp);
                     }
                     ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
-                    ArrayAdapter<String> eventsArrayAdapter =
-                            new ArrayAdapter<String>(getApplicationContext(),
-                                    R.layout.event_list_item, R.id.eventList_name, events);
+                    EventListAdapter eventsArrayAdapter =
+                            new EventListAdapter(getApplicationContext(),
+                                    R.layout.event_list_item, events);
                     eventsListView.setAdapter(eventsArrayAdapter);
                     eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> a, View v, int i, long l)
                         {
-                            openConversation(events, i);
+                            viewEvent(events, i);
                         }
                     });
                 } else {
@@ -175,6 +180,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 }
             }
         });
+    }
+
+    public void viewEvent(ArrayList<ParseObject> events, int pos) {
+        
     }
 
 
@@ -283,7 +292,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    public static class EventFragment extends Fragment {
+    public class EventFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -294,7 +303,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static EventFragment newInstance(int sectionNumber) {
+        public EventFragment newInstance(int sectionNumber) {
             EventFragment fragment = new EventFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -306,6 +315,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_event, container, false);
+
+            // Set up the submit button click handler
+            rootView.findViewById(R.id.buttonNewEvent).setOnClickListener( new View.OnClickListener() {
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, new_features_list.class));
+                }
+            });
+
             return rootView;
         }
     }
@@ -362,48 +379,81 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            fillTextView(rootView, R.id.textNameProfile, currentUser.get("firstName").toString() + " " + currentUser.get("lastName").toString());
+            fillTextView(rootView, R.id.textUsernameProfile, currentUser.getUsername().toString());
+            fillTextView(rootView, R.id.textPhoneNumberProfile, currentUser.get("phoneNumber").toString());
+
             return rootView;
         }
     }
 
-    public void fillTextView (int tViewID, String text) {
-        TextView temp = (TextView) findViewById(tViewID);
+    public void fillTextView (View layout, int tViewID, String text) {
+        TextView temp = (TextView) layout.findViewById(tViewID);
         temp.setText(text);
     }
 
-//    public static class EventAdapter extends ArrayAdapter<ParseObject> {
-//
-//        private static class ViewHolder {
-//            private TextView itemView;
-//        }
-//
-//        public EventAdapter(Context context, int textViewResourceId, ArrayList<ParseObject> items) {
-//            super(context, textViewResourceId, items);
-//        }
-//
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//
-//            if (convertView == null) {
-//                convertView = LayoutInflater.from(this.getContext())
-//                        .inflate(R.layout.listview_association, parent, false);
-//
-//                ViewHolder viewHolder = new ViewHolder();
-//                viewHolder.itemView = (TextView) convertView.findViewById(R.id.ItemView);
-//
-//                convertView.setTag(viewHolder);
-//            } else {
-//                ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-//            }
-//
-//            EventAdapter item = getItem(position);
-//            if (item!= null) {
-//                // My layout has only one TextView
-//                // do whatever you want with your string and long
-//                viewHolder.itemView.setText(String.format("%s %d", item.reason, item.long_val));
-//            }
-//
-//            return view;
-//        }
-//    }
+    private static class EventListAdapter extends ArrayAdapter<ParseObject> {
+
+        private static class ViewHolder {
+            private TextView text1;
+            private TextView text2;
+            private TextView text3;
+
+            ViewHolder() {
+            }
+        }
+
+        /** Inflater for list items */
+        private final LayoutInflater inflater;
+
+        /**
+         * General constructor
+         *
+         * @param context
+         * @param resource
+         * @param objects
+         */
+        public EventListAdapter(final Context context,
+                                   final int resource,
+                                   final List<ParseObject> objects) {
+            super(context, resource, objects);
+
+            this.inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
+
+            View itemView = convertView;
+            ViewHolder holder = null;
+            final ParseObject item = getItem(position);
+            final ParseUser creator = (ParseUser) item.get("creator");
+            final TimeZone tz = TimeZone.getDefault();
+            final Date startDate = (Date) item.get("startDate");
+            final DateFormat df = new SimpleDateFormat("h:m a, E, MMM d");
+
+            if(null == itemView) {
+                itemView = this.inflater.inflate(R.layout.event_list_item, parent, false);
+
+                holder = new ViewHolder();
+
+                holder.text1 = (TextView)itemView.findViewById(R.id.eventList_name);
+                holder.text2 = (TextView)itemView.findViewById(R.id.eventList_date);
+                holder.text3 = (TextView)itemView.findViewById(R.id.eventList_creator);
+
+                itemView.setTag(holder);
+            } else {
+                holder = (ViewHolder)itemView.getTag();
+            }
+
+            holder.text1.setText(item.get("name").toString());
+            holder.text2.setText(df.format(startDate));
+            holder.text3.setText(creator.get("firstName").toString() + " " + creator.get("lastName").toString());
+
+            return itemView;
+        }
+    }
 
 }

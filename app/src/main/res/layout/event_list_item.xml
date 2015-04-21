@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/event_card_view"
-    android:layout_gravity="center"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    card_view:cardCornerRadius="2dp"
-    android:background="#ff202020"
-    android:layout_margin="15dp"
-    android:padding="10dp">
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/eventList_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Event Date"
+        android:textSize="16sp"
+        android:textColor="@color/event_details"
+        android:singleLine="true"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="16dp"
+        android:paddingBottom="6dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/eventList_creator"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/event_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="16dp"
+        android:paddingBottom="6dp"
+        android:textSize="14sp"
+        android:text="Creator"
+        android:layout_alignBottom="@+id/eventList_date"
+        android:layout_alignRight="@+id/eventList_name"/>
 
     <TextView
         android:id="@+id/eventList_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="#ff202020"
-        android:textSize="20sp"
-        android:padding="10dp"/>
-</android.support.v7.widget.CardView>
+        android:textColor="#a9a9a9"
+        android:padding="16dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:text="Event Title"/>
+</RelativeLayout>
