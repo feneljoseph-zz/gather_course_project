@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/eventList_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Event Date"
+        android:textSize="16sp"
+        android:textColor="@color/event_details"
+        android:singleLine="true"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="16dp"
+        android:paddingBottom="6dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/eventList_creator"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/event_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="16dp"
+        android:paddingBottom="6dp"
+        android:textSize="14sp"
+        android:text="Creator"
+        android:layout_alignBottom="@+id/eventList_date"
+        android:layout_alignRight="@+id/eventList_name"/>
+
+    <TextView
+        android:id="@+id/eventList_name"
+        android:textColor="#a9a9a9"
+        android:padding="16dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:text="Event Title"/>
+</RelativeLayout>

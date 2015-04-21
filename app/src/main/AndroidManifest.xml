@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cop_4331c.gather" >
 
+    <uses-sdk android:minSdkVersion="11" />
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -9,13 +11,20 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
+        android:name=".GatherActivity"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.NoActionBar" >
-        android:name=".GatherActivity">
         <activity
             android:name=".DispatchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -39,7 +48,7 @@
             android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in"
             android:parentActivityName=".WelcomeActivity"
-            android:theme="@style/Theme.AppCompat"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -49,7 +58,7 @@
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName=".WelcomeActivity"
-            android:theme="@style/Theme.AppCompat" >
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cop_4331c.gather.WelcomeActivity" />
@@ -78,6 +87,55 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cop_4331c.gather.ui.HostMusicPlaylistHomeActivity" />
         </activity>
+        <activity
+                    android:name=".MainActivity"
+                    android:label="@string/title_activity_main"
+                    android:theme="@style/Theme.AppCompat" >
+        </activity>
+        <activity
+            android:name=".AccountInfoActivity"
+            android:label="@string/title_activity_main"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cop_4331c.gather.MainActivity" />
+        </activity>
+        <activity
+            android:name=".new_features_list"
+            android:label="@string/title_activity_new_features_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cop_4331c.gather.MainActivity" />
+        </activity>
+        <activity
+            android:name=".name_event"
+            android:label="@string/title_activity_name_event"
+            android:parentActivityName=".new_features_list"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".PublishEventActivity"
+            android:label="@string/publishing_activity_title"
+            android:parentActivityName=".new_features_list"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
+            <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
+        </activity>
+        <activity
+            android:name=".MessagingActivity"
+            android:label="@string/title_activity_messaging"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cop_4331c.gather.MainActivity" />
+        </activity>
+
+        <service android:name=".util.MessageService"
+            android:enabled="true" >
+            </service>
     </application>
 
 </manifest>

@@ -1,0 +1,81 @@
+package cop_4331c.gather;
+
+import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class new_features_list extends ActionBarActivity {
+    private String TargetEventID;
+    private ParseObject TargetEvent;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_features_list);
+
+        Intent intent = getIntent();
+        TargetEventID = intent.getStringExtra("TargetEventID");
+
+        ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
+        eventQuery.whereEqualTo("objectId", TargetEventID);
+        eventQuery.findInBackground(new FindCallback<ParseObject>()
+        {
+            @Override
+            public void done(List eventList, com.parse.ParseException e)
+            {
+                if(e == null) {
+                    TargetEvent = (ParseObject) eventList.get(0);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error loading event information. Try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_new_features_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void PublishActivity(View view) {
+        Intent launch = new Intent(this, PublishEventActivity.class);
+        startActivity(launch);
+    }
+
+    public void nameEventActivity(View view) {
+        Intent nameEventActivity = new Intent(this, name_event.class);
+        startActivity(nameEventActivity);
+    }
+}
