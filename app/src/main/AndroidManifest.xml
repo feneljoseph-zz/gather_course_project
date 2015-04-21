@@ -71,14 +71,6 @@
                 android:value="cop_4331c.gather.ui.HostMusicPlaylistHomeActivity" />
         </activity>
         <activity
-            android:name=".ui.EditPlaylistActivity"
-            android:label="@string/title_activity_edit_playlist"
-            android:parentActivityName=".ui.HostMusicPlaylistHomeActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="cop_4331c.gather.ui.HostMusicPlaylistHomeActivity" />
-        </activity>
-        <activity
             android:name=".ui.EditPlaylistsActivity"
             android:label="@string/title_activity_edit_playlists"
             android:parentActivityName=".ui.HostMusicPlaylistHomeActivity" >
