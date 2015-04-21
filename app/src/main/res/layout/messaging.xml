@@ -7,20 +7,18 @@
             android:id="@+id/relRecipient"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@android:color/white"
-            android:paddingLeft="10dp">
+        android:paddingLeft="10dp">
 
-        <EditText
+        <TextView
                 android:id="@+id/txtRecipient"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Recipient"
-                android:background="@android:color/white"
-                android:textColor="@color/sinch_purple"
-                android:inputType="textPersonName">
+            android:inputType="textPersonName"
+            android:textSize="20sp">
 
             <requestFocus/>
-        </EditText>
+        </TextView>
     </RelativeLayout>
 
     <ListView
@@ -30,8 +28,7 @@
             android:transcriptMode="alwaysScroll"
             android:layout_above="@+id/relSendMessage"
             android:layout_below="@+id/relRecipient"
-            android:background="@drawable/bg_shadow"
-            android:padding="0dip"
+        android:padding="0dip"
             android:divider="@null"
             android:dividerHeight="0dp" android:stackFromBottom="true" tools:listitem="@layout/message_left"/>
 
@@ -40,8 +37,7 @@
             android:id="@+id/relSendMessage"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:background="@android:color/white"
-            android:paddingLeft="10dp"
+        android:paddingLeft="10dp"
             android:layout_alignParentBottom="true">
 
 
@@ -52,7 +48,7 @@
                 android:layout_height="match_parent"
                 android:hint="Message..."
                 android:textSize="14sp"
-                android:textColor="@color/dark_gray"
+                android:textColor="#000000"
                 android:layout_marginRight="10dp"
                 android:layout_alignTop="@+id/btnSend"
                 android:background="@android:color/white"

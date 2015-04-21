@@ -30,7 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.ParseException;
+
+import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -48,7 +49,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     private TextView userName;
     private TextView phoneNumber;
 
-    private TextView textView;
+    private String recipientName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,15 +99,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
+        Parse.initialize(this, "r0AWTV2rHQu1LKLuvghS5dxgw32hKeBWDnVmyxNQ", "THis9813mCk50ooetnDlY9wIkAcYDkBn10IE5u2a");
+
         //don't include yourself
         query.whereNotEqualTo("objectId", currentUserId);
         query.findInBackground(new FindCallback<ParseUser>()
         {
             public void done(List<ParseUser> userList, com.parse.ParseException e)
             {
-            if (e == null) {
-                for (int i=0; i<userList.size(); i++) {
-                    names.add(userList.get(i).getUsername().toString());
+                if (e == null) {
+                    for (int i=0; i<userList.size(); i++) {
+                        names.add(userList.get(i).get("firstName").toString() + " " + userList.get(i).get("lastName").toString());
+                        //names.add(userList.get(i).getUsername().toString());
                 }
                 ListView usersListView = (ListView)findViewById(R.id.sinchUserLayout);
                 ArrayAdapter<String> namesArrayAdapter =
@@ -117,7 +121,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     @Override
                     public void onItemClick(AdapterView<?> a, View v, int i, long l)
                     {
-                        openConversation(names, i);
+                        openConversation(names, i, recipientName);
                     }
                 });
             } else {
@@ -160,19 +164,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
         });
 
-        final Intent serviceIntent = new Intent(getApplicationContext(), MessageService.class);
-        startService(serviceIntent);
     }
 
-    public void openConversation(ArrayList<String> names, int pos) {
+    public void openConversation(final ArrayList<String> names, final int pos, final String s) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username", names.get(pos));
+        query.whereEqualTo("firstName", names.get(pos).split(" ")[0]);
+        query.whereEqualTo("lastName", names.get(pos).split(" ")[1]);
         query.findInBackground(new FindCallback<ParseUser>() {
 
             public void done(List<ParseUser> user, com.parse.ParseException e)
             {
                 if (e == null) {
-                    //start the messaging activity
+                    Intent openConversation = new Intent(getApplicationContext(), MessagingActivity.class);
+                    openConversation.putExtra("RECIPIENT_ID", user.get(0).getObjectId());
+                    openConversation.putExtra("RECIPIENT_NAME", names.get(pos));
+                    startActivity(openConversation);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Error finding that user",
@@ -217,8 +223,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             case R.id.main_search:
                 return true;
             case R.id.main_account_info:
+                startActivity(new Intent(this, AccountInfoActivity.class));
                 return true;
             case R.id.main_sign_out:
+                stopService(new Intent(this, MessageService.class));
                 ParseUser.getCurrentUser().logOut();
                 startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
                 return true;
@@ -243,7 +251,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     public void onDestroy() {
-        stopService(new Intent(this, MessageService.class));
         super.onDestroy();
     }
 

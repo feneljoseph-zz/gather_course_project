@@ -16,10 +16,13 @@ import com.sinch.android.rtc.messaging.MessageClientListener;
 import com.sinch.android.rtc.messaging.WritableMessage;
 
 public class MessageService extends Service implements SinchClientListener {
+
     private static final String APP_KEY = "9a548027-88d6-49e3-b762-a5f2dafa9659";
     private static final String APP_SECRET = "yZpn3bKEVkKW+UtvEKx7eA==";
     private static final String ENVIRONMENT = "sandbox.sinch.com";
+
     private final MessageServiceInterface serviceInterface = new MessageServiceInterface();
+
     private SinchClient sinchClient = null;
     private MessageClient messageClient = null;
     private String currentUserId;
@@ -72,25 +75,30 @@ public class MessageService extends Service implements SinchClientListener {
     @Override
     public void onLogMessage(int level, String area, String message) {}
     @Override
+
     public IBinder onBind(Intent intent) {
         return serviceInterface;
     }
+
     public void sendMessage(String recipientUserId, String textBody) {
         if (messageClient != null) {
             WritableMessage message = new WritableMessage(recipientUserId, textBody);
             messageClient.send(message);
         }
     }
+
     public void addMessageClientListener(MessageClientListener listener) {
         if (messageClient != null) {
             messageClient.addMessageClientListener(listener);
         }
     }
+
     public void removeMessageClientListener(MessageClientListener listener) {
         if (messageClient != null) {
             messageClient.removeMessageClientListener(listener);
         }
     }
+
     @Override
     public void onDestroy() {
         sinchClient.stopListeningOnActiveConnection();

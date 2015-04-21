@@ -69,6 +69,7 @@
     <string name="name_preview">Event Name Preview</string>
     <string name="submit_name">Submit Name</string>
     <string name="preview">preview</string>
+    <string name="title_activity_messaging">MessagingActivity</string>
 
     <!-- Event Fragment Strings -->
     <string name="new_event">CREATE NEW EVENT</string>
