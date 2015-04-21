@@ -1,5 +1,6 @@
 package cop_4331c.gather;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -326,7 +327,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             // Set up the submit button click handler
             rootView.findViewById(R.id.buttonNewEvent).setOnClickListener( new View.OnClickListener() {
                 public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, new_features_list.class));
+                    Intent EventList = new Intent(MainActivity.this, new_features_list.class);
+                    ParseObject newEvent = new ParseObject("Event");
+                    newEvent.put("creator", ParseUser.getCurrentUser());
+                    newEvent.saveInBackground();
+                    EventList.putExtra("TargetObjectID", newEvent.get("objectId").toString());
+                    startActivity(EventList);
                 }
             });
 

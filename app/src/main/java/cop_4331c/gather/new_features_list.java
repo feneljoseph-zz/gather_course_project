@@ -6,14 +6,46 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class new_features_list extends ActionBarActivity {
+    private String TargetEventID;
+    private ParseObject TargetEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_features_list);
+
+        Intent intent = getIntent();
+        TargetEventID = intent.getStringExtra("TargetEventID");
+
+        ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
+        eventQuery.whereEqualTo("objectId", TargetEventID);
+        eventQuery.findInBackground(new FindCallback<ParseObject>()
+        {
+            @Override
+            public void done(List eventList, com.parse.ParseException e)
+            {
+                if(e == null) {
+                    TargetEvent = (ParseObject) eventList.get(0);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Error loading event information. Try again.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 
