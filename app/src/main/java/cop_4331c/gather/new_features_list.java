@@ -1,5 +1,6 @@
 package cop_4331c.gather;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -28,9 +31,22 @@ public class new_features_list extends ActionBarActivity {
         setContentView(R.layout.activity_new_features_list);
 
         Intent intent = getIntent();
-        TargetEventID = intent.getStringExtra("TargetEventID");
+        TargetEventID = intent.getStringExtra("TargetObjectID");
 
-        ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.getInBackground(TargetEventID, new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    //
+                } else {
+                    ProgressDialog dlg = new ProgressDialog(new_features_list.this);
+                    dlg.setMessage("Could not get event");
+                    dlg.show();
+                }
+            }
+        });
+
+        /*ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
         eventQuery.whereEqualTo("objectId", TargetEventID);
         eventQuery.findInBackground(new FindCallback<ParseObject>()
         {
@@ -45,7 +61,7 @@ public class new_features_list extends ActionBarActivity {
                             Toast.LENGTH_LONG).show();
                 }
             }
-        });
+        });*/
     }
 
 
