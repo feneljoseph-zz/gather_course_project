@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,11 +72,33 @@ public class SearchForSongActivity extends ActionBarActivity {
             @Override
             public void success(TracksPager tracksPager, Response response) {
 
+                int j = tracksPager.tracks.items.size();
+                int k = 15;
 
-                for(int i=0; i<15; i++)
+
+                if( j< 15)
+                    k = j;
+
+                for(int i=0; i<k; i++)
                 {
                     Song song = new Song();
-                    song.setAlbumCoverURL(tracksPager.tracks.items.get(i).album.images.get(0).url);
+                    String url = "";
+
+                    try
+                    {
+                        url = tracksPager.tracks.items.get(i).album.images.get(0).url;
+                    }
+                    catch(Exception e)
+                    {
+                        url = "http://i.imgur.com/XIXcV5Y.jpg";
+                    }
+
+                    Log.d("URL IS!!! : ", url);
+
+
+
+                    song.setAlbumCoverURL(url);
+
                     song.setArtist(tracksPager.tracks.items.get(i).artists.get(0).name);
                     song.setSongName(tracksPager.tracks.items.get(i).name);
                     song.setId(tracksPager.tracks.items.get(i).id);
@@ -114,7 +137,6 @@ public class SearchForSongActivity extends ActionBarActivity {
     @OnClick (R.id.homeTab)
     public void startHomeActivity(View view)
     {
-
         finish();
     }
 
@@ -123,5 +145,6 @@ public class SearchForSongActivity extends ActionBarActivity {
     {
         startActivity(new Intent(this, EditPlaylistsActivity.class));
     }
+
 
 }

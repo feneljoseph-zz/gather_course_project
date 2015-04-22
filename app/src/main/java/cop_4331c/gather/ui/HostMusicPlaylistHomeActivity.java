@@ -2,26 +2,33 @@ package cop_4331c.gather.ui;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.text.ParcelableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.ListIterator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import cop_4331c.gather.MainActivity;
 import cop_4331c.gather.R;
 import cop_4331c.gather.adapter.HomeAdapter;
 import cop_4331c.gather.music.Playlist;
 import cop_4331c.gather.music.Host;
+import cop_4331c.gather.music.Song;
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import retrofit.Callback;
@@ -36,8 +43,6 @@ public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
     private static final String CLIENT_ID = "e565d7c739914340abfae5dec7e525a6";
     private static final String REDIRECT_URI = "gather-app-login://callback";
     private static final int AUTH_REQUEST_CODE = 1337;
-
-    public static final String HOST = "HOST";
 
 
     SpotifyApi api = new SpotifyApi();

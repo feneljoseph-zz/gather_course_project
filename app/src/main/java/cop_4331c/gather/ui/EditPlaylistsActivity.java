@@ -1,14 +1,17 @@
 package cop_4331c.gather.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import cop_4331c.gather.R;
 import cop_4331c.gather.adapter.EditAdapter;
 import cop_4331c.gather.adapter.HomeAdapter;
@@ -74,5 +77,26 @@ public class EditPlaylistsActivity extends ActionBarActivity {
         });
 
         HostMusicPlaylistHomeActivity.mHost.setPlaylists(mHost.getPlaylists());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        refreshPlaylist();
+    }
+
+    @OnClick(R.id.searchTab)
+    public void startSearchActivity(View view)
+    {
+        startActivity(new Intent(this, SearchForSongActivity.class));
+    }
+
+    @OnClick (R.id.homeTab)
+    public void startHomeActivity(View view)
+    {
+        Intent intent = new Intent(this, HostMusicPlaylistHomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 }
