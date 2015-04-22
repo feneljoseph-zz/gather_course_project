@@ -30,7 +30,7 @@ import retrofit.client.Response;
 
 public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
 
-    private HomeAdapter adapter = null;
+    public static HomeAdapter adapter = null;
 
     // Spotify auth info
     private static final String CLIENT_ID = "e565d7c739914340abfae5dec7e525a6";
@@ -137,6 +137,7 @@ public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
                 }
             }
 
+            //TODO LL IMPLEMENTATION
             mHost.setPlaylists(new Playlist(spotify.getPlaylist(mHost.getUserID(), mHost.getPlaylistId()).tracks.items));
             isInit = true;
             return null;
@@ -158,6 +159,8 @@ public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
 
     }
 
+
+    //TODO LL Implementation
     public void refreshPlaylist()
     {
 

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.util.LinkedList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -24,7 +26,7 @@ import retrofit.client.Response;
 
 public class SearchForSongActivity extends ActionBarActivity {
     private SearchAdapter adapter = null;
-    private Song[] mSongs;
+    private LinkedList<Song> mSongs = new LinkedList<Song>();
     private SpotifyService spotify;
 
     @InjectView(R.id.recyclerViewSearch) RecyclerView mRecyclerView;
@@ -44,10 +46,10 @@ public class SearchForSongActivity extends ActionBarActivity {
         //TODO Come up with better empty view
 
         //Init with 1 result
-        mSongs = new Song[1];
-        mSongs[0] = new Song();
-        mSongs[0].setSongName("Search for songs here");
-        mSongs[0].setArtist("... ");
+        Song song = new Song();
+        song.setSongName("Search for songs here");
+        song.setArtist("... ");
+        mSongs.add(song);
 
 
 
@@ -69,15 +71,16 @@ public class SearchForSongActivity extends ActionBarActivity {
             @Override
             public void success(TracksPager tracksPager, Response response) {
 
-                mSongs = new Song[12];
 
-                for(int i=0; i<12; i++)
+                for(int i=0; i<15; i++)
                 {
-                    mSongs[i] = new Song();
-                    mSongs[i].setAlbumCoverURL(tracksPager.tracks.items.get(i).album.images.get(0).url);
-                    mSongs[i].setArtist(tracksPager.tracks.items.get(i).artists.get(0).name);
-                    mSongs[i].setSongName(tracksPager.tracks.items.get(i).name);
-                    mSongs[i].setId(tracksPager.tracks.items.get(i).id);
+                    Song song = new Song();
+                    song.setAlbumCoverURL(tracksPager.tracks.items.get(i).album.images.get(0).url);
+                    song.setArtist(tracksPager.tracks.items.get(i).artists.get(0).name);
+                    song.setSongName(tracksPager.tracks.items.get(i).name);
+                    song.setId(tracksPager.tracks.items.get(i).id);
+
+                    mSongs.add(song);
                 }
 
                 //Refresh view
@@ -103,6 +106,7 @@ public class SearchForSongActivity extends ActionBarActivity {
     @OnClick (R.id.searchButton)
     public void startSearchActivity(View view)
     {
+        mSongs.clear();
         String songName = mSearchEditText.getText().toString();
         searchForSong(songName);
     }

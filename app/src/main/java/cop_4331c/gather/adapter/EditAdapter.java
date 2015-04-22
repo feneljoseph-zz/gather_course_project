@@ -16,40 +16,37 @@ import cop_4331c.gather.R;
 import cop_4331c.gather.music.Song;
 
 /**
- * Created by ajariwinfield on 4/1/15.
+ * Created by ajariwinfield on 4/21/15.
  */
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlaylistViewHolder>
-{
+public class EditAdapter extends RecyclerView.Adapter<EditAdapter.PlaylistViewHolder> {
+
     private LinkedList<Song> mSongs2;
     private Context mContext;
 
-    //TODO LL implementation
-    public HomeAdapter(Context context, LinkedList<Song> songs)
+    // TODO LL implementation
+    public EditAdapter(Context context, LinkedList<Song> songs)
     {
         mSongs2 = songs;
         mContext = context;
     }
 
     @Override
-    public HomeAdapter.PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public EditAdapter.PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.song_list_item, parent, false);
+                .inflate(R.layout.edit_song_item, parent, false);
 
         PlaylistViewHolder viewHolder = new PlaylistViewHolder(view);
 
         return viewHolder;
     }
 
-
-    //TODO create LL version
     @Override
-    public void onBindViewHolder(HomeAdapter.PlaylistViewHolder holder, int position)
+    public void onBindViewHolder(EditAdapter.PlaylistViewHolder holder, int position)
     {
         holder.bindSong(mSongs2.get(position));
     }
 
-    //TODO create LL version
     @Override
     public int getItemCount() {
         return mSongs2.size();
@@ -61,6 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlaylistViewHo
         mSongs2 = songs;
         notifyDataSetChanged();
     }
+
 
     public class PlaylistViewHolder extends RecyclerView.ViewHolder
     {
