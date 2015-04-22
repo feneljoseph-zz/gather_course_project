@@ -60,7 +60,7 @@ public class AccountInfoActivity extends ActionBarActivity {
                     user.put("lastName", lastName.getText().toString());
                 if (userName.getText().length() > 0)
                     user.setUsername(userName.getText().toString());
-                if (phoneNumber.getText().length() > 0 && isValidPhone(phoneNumber.getText().toString()))
+                if (phoneNumber.getText().toString().length() > 0 /* && isValidPhone(phoneNumber.getText().toString())*/)
                     user.put("phoneNumber", phoneNumber.getText().toString());
                 password = (EditText) findViewById(R.id.textPasswordLogin);
                 verifyPassword = (EditText) findViewById(R.id.textPasswordVerify);

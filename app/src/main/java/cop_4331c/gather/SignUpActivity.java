@@ -95,7 +95,7 @@ public class SignUpActivity extends ActionBarActivity {
             user.put("lastName", lastnameView.getText().toString());
             user.put("email", usernameView.getText().toString());
 
-            if ( isNumberValid(phonenumberView) && !isEmpty(phonenumberView) ) {
+            if ( /*isNumberValid(phonenumberView) &&*/ !isEmpty(phonenumberView) ) {
                 user.put("phoneNumber", phonenumberView.getText().toString());
             }
 

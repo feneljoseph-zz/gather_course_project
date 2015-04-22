@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -49,6 +50,7 @@ public class MessagingActivity  extends Activity {
     private MessageAdapter messageAdapter;
     private ListView messagesList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -75,7 +77,7 @@ public class MessagingActivity  extends Activity {
         query.orderByAscending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> messageList, com.parse.ParseException e) {
+            public void done(List<ParseObject> messageList, ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < messageList.size(); i++) {
                         WritableMessage message = new WritableMessage(messageList.get(i).get("recipientId").toString(), messageList.get(i).get("messageText").toString());
@@ -141,10 +143,7 @@ public class MessagingActivity  extends Activity {
         }
         @Override
         public void onMessageSent(MessageClient client, Message message, String recipientId) {
-            //Display the message that was just sent
-
             final WritableMessage writableMessage = new WritableMessage(message.getRecipientIds().get(0), message.getTextBody());
-            messageAdapter.addMessage(writableMessage, MessageAdapter.DIRECTION_OUTGOING);
 
             //only add message to parse database if it doesn't already exist there
             ParseQuery<ParseObject> query = ParseQuery.getQuery("ParseMessage");
@@ -160,11 +159,13 @@ public class MessagingActivity  extends Activity {
                             parseMessage.put("messageText", writableMessage.getTextBody());
                             parseMessage.put("sinchId", writableMessage.getMessageId());
                             parseMessage.saveInBackground();
+                            messageAdapter.addMessage(writableMessage, MessageAdapter.DIRECTION_OUTGOING);
                         }
                     }
                 }
             });
         }
+
         //Do you want to notify your user when the message is delivered?
         @Override
         public void onMessageDelivered(MessageClient client, MessageDeliveryInfo deliveryInfo) {}
@@ -178,6 +179,7 @@ public class MessagingActivity  extends Activity {
         public static final int DIRECTION_OUTGOING = 1;
         private List<Pair<WritableMessage, Integer>> messages;
         private LayoutInflater layoutInflater;
+
         public MessageAdapter(Activity activity) {
             layoutInflater = activity.getLayoutInflater();
             messages = new ArrayList<Pair<WritableMessage, Integer>>();
@@ -186,6 +188,7 @@ public class MessagingActivity  extends Activity {
             messages.add(new Pair(message, direction));
             notifyDataSetChanged();
         }
+
         @Override
         public int getCount() {
             return messages.size();
@@ -223,6 +226,7 @@ public class MessagingActivity  extends Activity {
             WritableMessage message = messages.get(i).first;
             TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
             txtMessage.setText(message.getTextBody());
+
             return convertView;
         }
     }

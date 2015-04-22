@@ -52,6 +52,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     private String recipientName;
 
+    private ParseUser currentUser = ParseUser.getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -393,10 +395,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-            ParseUser currentUser = ParseUser.getCurrentUser();
             fillTextView(rootView, R.id.textNameProfile, currentUser.get("firstName").toString() + " " + currentUser.get("lastName").toString());
             fillTextView(rootView, R.id.textUsernameProfile, currentUser.getUsername().toString());
-            fillTextView(rootView, R.id.textPhoneNumberProfile, currentUser.get("phoneNumber").toString());
+
+            try { fillTextView(rootView, R.id.textPhoneNumberProfile, currentUser.get("phoneNumber").toString()); }
+            catch (Exception e) { fillTextView(rootView, R.id.textPhoneNumberProfile, "No phone number registered"); }
 
             return rootView;
         }
