@@ -3,6 +3,7 @@ package cop_4331c.gather;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,7 @@ import java.util.Random;
 
 
 public class name_event extends ActionBarActivity {
-    private ParseObject TargetEvent;
+    private ParseObject targetEvent;
     private String TargetEventID;
     private String preview;
 
@@ -43,7 +44,7 @@ public class name_event extends ActionBarActivity {
         query.getInBackground(TargetEventID, new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
-                    TargetEvent = object;
+                    targetEvent = object;
                     TextView title = (TextView) findViewById(R.id.txtEventTitle);
 
                     try {title.setText(object.get("name").toString());}
@@ -99,10 +100,28 @@ public class name_event extends ActionBarActivity {
 
     // Currently not functional
     public void saveChanges(View view) {
-        TargetEvent.put("name", preview);
+        try {targetEvent.put("name", preview);}
+        catch (Exception ex) {}
 
-        try {TargetEvent.save();}
+        try {targetEvent.save();}
         catch (ParseException e) { Toast.makeText(name_event.this, "Failed to save event", Toast.LENGTH_SHORT).show(); }
+
+        final ProgressDialog load = new ProgressDialog(name_event.this);
+        load.setTitle("Please wait");
+        load.setMessage("Updating name event");
+        load.show();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                load.dismiss();
+                Intent goBack = new Intent(name_event.this, new_features_list.class );
+                goBack.putExtra("TargetObjectID", TargetEventID);
+                startActivity(goBack);
+            }
+        }, 3000);
+
     }
 
     @Override

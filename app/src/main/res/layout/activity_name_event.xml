@@ -83,8 +83,8 @@
         android:id="@+id/submit_name"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:layout_centerHorizontal="true" />
-        <!--android:onClick="saveChanges" -->
+        android:layout_centerHorizontal="true"
+        android:onClick="saveChanges" />
 
     <Button
         style="?android:attr/buttonStyleSmall"

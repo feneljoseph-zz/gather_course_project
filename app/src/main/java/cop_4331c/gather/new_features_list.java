@@ -77,11 +77,17 @@ public class new_features_list extends ActionBarActivity {
         Intent launch = new Intent(this, PublishEventActivity.class);
         launch.putExtra("TargetObjectID", TargetEventID);
         startActivity(launch);
+        finish();
     }
 
     public void nameEventActivity(View view) {
         Intent nameEventActivity = new Intent(this, name_event.class);
         nameEventActivity.putExtra("TargetObjectID", TargetEventID);
         startActivity(nameEventActivity);
+        finish();
+    }
+
+    public void onBackPressed() {
+        startActivity(new Intent(new_features_list.this, MainActivity.class));
     }
 }
