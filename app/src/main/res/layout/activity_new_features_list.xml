@@ -8,6 +8,8 @@
     android:id="@+id/features_list_layout"
     android:background="#000000">
 
+
+
     <ImageView
         android:layout_width="186dp"
         android:layout_height="116dp"
@@ -16,24 +18,23 @@
         android:background="@drawable/feature_name"
         android:alpha=".8"
         android:contentDescription="@string/name_event"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/txtEventTitle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:clickable="true"
         android:onClick="nameEventActivity"/>
 
     <TextView
-        style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/get_started"
         android:textColor="#FFFFFF"
-        android:id="@+id/textView2"
+        android:id="@+id/txtEventTitle"
         android:layout_gravity="top"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp" />
 
     <ImageView
         android:layout_width="186dp"
@@ -106,7 +107,6 @@
         android:onClick="PublishActivity"/>
 
     <TextView
-        style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -120,7 +120,6 @@
         android:layout_marginLeft="30dp" />
 
     <TextView
-        style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -134,7 +133,6 @@
         android:layout_marginLeft="30dp" />
 
     <TextView
-        style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -148,7 +146,6 @@
         android:layout_marginLeft="30dp" />
 
     <TextView
-        style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -162,7 +159,6 @@
         android:layout_marginRight="20dp" />
 
     <TextView
-        style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -177,7 +173,6 @@
         android:layout_below="@+id/imageButton2" />
 
     <TextView
-        style="@style/Base.V21.Theme.AppCompat.Light.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"

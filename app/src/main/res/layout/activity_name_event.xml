@@ -10,12 +10,12 @@
     <EditText
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:id="@+id/user_event_name"
+        android:id="@+id/txtEventTitle"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="40dp"
-        android:text="@string/enter_name"
+        android:hint="@string/enter_name"
         android:inputType="textCapWords"
         android:editable="true" />
 
@@ -25,7 +25,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/or"
         android:id="@+id/textView3"
-        android:layout_below="@+id/user_event_name"
+        android:layout_below="@+id/txtEventTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp" />
 
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/creator_name"
+        android:hint="@string/creator_name"
         android:ems="10"
         android:id="@+id/creator_name"
         android:layout_below="@+id/textView3"
@@ -52,8 +52,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="40dp"
-        android:layout_alignRight="@+id/user_event_name"
-        android:layout_alignEnd="@+id/user_event_name" />
+        android:layout_alignRight="@+id/txtEventTitle"
+        android:layout_alignEnd="@+id/txtEventTitle" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/user_name_button"
-        android:layout_alignTop="@+id/user_event_name"
+        android:layout_alignTop="@+id/txtEventTitle"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:text="@string/preview"
@@ -84,6 +84,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true" />
+        <!--android:onClick="saveChanges" -->
 
     <Button
         style="?android:attr/buttonStyleSmall"

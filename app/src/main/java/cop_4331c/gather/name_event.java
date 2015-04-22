@@ -1,5 +1,7 @@
 package cop_4331c.gather;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,11 +11,20 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.Random;
 
 
 public class name_event extends ActionBarActivity {
+    private ParseObject TargetEvent;
+    private String TargetEventID;
+    private String preview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +35,27 @@ public class name_event extends ActionBarActivity {
         String[] items = new String[]{"Corporate", "Birthday", "Dance", "Recreational"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
+
+        Intent intent = getIntent();
+        TargetEventID = intent.getStringExtra("TargetObjectID");
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.getInBackground(TargetEventID, new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    TargetEvent = object;
+                    TextView title = (TextView) findViewById(R.id.txtEventTitle);
+
+                    try {title.setText(object.get("name").toString());}
+                    catch (Exception ex) {title.setText("No event name set");}
+
+                } else {
+                    ProgressDialog dlg = new ProgressDialog(name_event.this);
+                    dlg.setMessage("Could not get event");
+                    dlg.show();
+                }
+            }
+        });
     }
 
     private static String[] recreational = new String[]{"Club Hell Yea", "Drinko de Mayo", "Food Frolic", "Goon Boon", "I Wood Knot No"};
@@ -32,7 +64,7 @@ public class name_event extends ActionBarActivity {
     private static String[] dance = new String[]{"Dance Contagion","Dance Fusion","Dance Vibrations","Dancellennium", "Boogaloo", "Boogiethon"};
 
     public void previewUserName(View view) {
-        EditText userName = (EditText) findViewById(R.id.user_event_name);
+        EditText userName = (EditText) findViewById(R.id.txtEventTitle);
         String preview = userName.getText().toString();
 
         TextView previewName = (TextView) findViewById(R.id.name_preview);
@@ -40,7 +72,6 @@ public class name_event extends ActionBarActivity {
     }
 
     public void previewRandomName(View view) {
-        String preview;
         String selected;
         String randName = "";
 
@@ -63,8 +94,15 @@ public class name_event extends ActionBarActivity {
         }
 
         preview = creatorName.getText().toString() + "'s " + randName;
-
         previewName.setText(preview);
+    }
+
+    // Currently not functional
+    public void saveChanges(View view) {
+        TargetEvent.put("name", preview);
+
+        try {TargetEvent.save();}
+        catch (ParseException e) { Toast.makeText(name_event.this, "Failed to save event", Toast.LENGTH_SHORT).show(); }
     }
 
     @Override
