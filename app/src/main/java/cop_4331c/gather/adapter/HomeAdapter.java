@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.LinkedList;
+
 import cop_4331c.gather.R;
 import cop_4331c.gather.music.Song;
 
@@ -18,12 +20,13 @@ import cop_4331c.gather.music.Song;
  */
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlaylistViewHolder>
 {
-    private Song[] mSongs;
+    private LinkedList<Song> mSongs2;
     private Context mContext;
 
-    public HomeAdapter(Context context, Song[] songs)
+    //TODO LL implementation
+    public HomeAdapter(Context context, LinkedList<Song> songs)
     {
-        mSongs = songs;
+        mSongs2 = songs;
         mContext = context;
     }
 
@@ -38,20 +41,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.PlaylistViewHo
         return viewHolder;
     }
 
+
+    //TODO create LL version
     @Override
     public void onBindViewHolder(HomeAdapter.PlaylistViewHolder holder, int position)
     {
-        holder.bindSong(mSongs[position]);
+        holder.bindSong(mSongs2.get(position));
     }
 
+    //TODO create LL version
     @Override
     public int getItemCount() {
-        return mSongs.length;
+        return mSongs2.size();
     }
 
-    public void refreshWithNewData(Song[] songs)
+    //TODO LL IMPLEMENTATION
+    public void refreshWithNewData(LinkedList<Song> songs)
     {
-        mSongs = songs;
+        mSongs2 = songs;
         notifyDataSetChanged();
     }
 

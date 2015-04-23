@@ -1,5 +1,6 @@
 package cop_4331c.gather.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.AbstractMap;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -42,16 +44,16 @@ import retrofit.http.QueryMap;
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder>
 {
-    private Song[] mSongs;
+    private LinkedList<Song> mSongs2;
     private Context mContext;
 
 
-    public SearchAdapter(Context context, Song[] songs)
+    //TODO LL implementation
+    public SearchAdapter(Context context, LinkedList<Song> songs)
     {
-        mSongs = songs;
+        mSongs2 = songs;
         mContext = context;
     }
-
 
     @Override
     public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,12 +67,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     @Override
     public void onBindViewHolder(SearchViewHolder holder, int position) {
-        holder.bindSong(mSongs[position]);
+        holder.bindSong(mSongs2.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mSongs.length;
+        return mSongs2.size();
     }
 
 
@@ -78,7 +80,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     {
         public ImageView mAlbumCover;
         public TextView mSongInfoLabel;
-        int position = getPosition();
 
 
         public SearchViewHolder(View itemView) {
@@ -101,13 +102,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         @Override
         public void onClick(View v)
         {
-            v.setBackgroundColor(0xffff4444);
             final Host host = HostMusicPlaylistHomeActivity.mHost;
             final SpotifyService spotify = HostMusicPlaylistHomeActivity.spotify;
 
-            spotify.getTrack(mSongs[getPosition()].getId(), new Callback<Track>() {
+            spotify.getTrack(mSongs2.get(getPosition()).getId(), new Callback<Track>() {
                 @Override
-                public void success(Track track, Response response)
+                public void success(final Track track, Response response)
                 {
                     ImmutableMap<String, Object> queries = ImmutableMap.of("uris", (Object)track.uri);
                     ImmutableMap<String, Object> body = ImmutableMap.of("uris", (Object)track.uri);
@@ -117,34 +117,42 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                         @Override
                         public void success(Pager<PlaylistTrack> playlistTrackPager, Response response)
                         {
-
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mContext, track.name + " added to playlist", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
                         public void failure(RetrofitError error)
                         {
-
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mContext, track.name + " could not be added to playlist", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
                 }
+
+
 
                 @Override
                 public void failure(RetrofitError error) {
 
                 }
             });
-
-
-
-
+            mSongs2.remove(getPosition());
+            notifyDataSetChanged();
         }
     }
 
-
-
-    public void refreshWithNewData(Song[] songs)
+    public void refreshWithNewData(LinkedList<Song> songs)
     {
-        mSongs = songs;
+        mSongs2 = songs;
         notifyDataSetChanged();
     }
 

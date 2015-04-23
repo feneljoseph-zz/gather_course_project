@@ -11,6 +11,15 @@ public class Song implements Parcelable
     private String mSongName;
     private String mArtist;
     private String mId;
+    private String mURI;
+
+    public String getURI() {
+        return mURI;
+    }
+
+    public void setURI(String URI) {
+        mURI = URI;
+    }
 
     public String getId() {
         return mId;

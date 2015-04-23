@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:text="Now Playling"
             android:background="#40ffffff"
-            android:id="@+id/button5"
+            android:id="@+id/homeTab"
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_red_light"/>
 

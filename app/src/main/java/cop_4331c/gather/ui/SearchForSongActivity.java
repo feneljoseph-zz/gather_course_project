@@ -5,10 +5,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import java.util.LinkedList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,7 +27,7 @@ import retrofit.client.Response;
 
 public class SearchForSongActivity extends ActionBarActivity {
     private SearchAdapter adapter = null;
-    private Song[] mSongs;
+    private LinkedList<Song> mSongs = new LinkedList<Song>();
     private SpotifyService spotify;
 
     @InjectView(R.id.recyclerViewSearch) RecyclerView mRecyclerView;
@@ -44,10 +47,10 @@ public class SearchForSongActivity extends ActionBarActivity {
         //TODO Come up with better empty view
 
         //Init with 1 result
-        mSongs = new Song[1];
-        mSongs[0] = new Song();
-        mSongs[0].setSongName("Search for songs here");
-        mSongs[0].setArtist("... ");
+        Song song = new Song();
+        song.setSongName("Search for songs here");
+        song.setArtist("... ");
+        mSongs.add(song);
 
 
 
@@ -69,15 +72,38 @@ public class SearchForSongActivity extends ActionBarActivity {
             @Override
             public void success(TracksPager tracksPager, Response response) {
 
-                mSongs = new Song[12];
+                int j = tracksPager.tracks.items.size();
+                int k = 15;
 
-                for(int i=0; i<12; i++)
+
+                if( j< 15)
+                    k = j;
+
+                for(int i=0; i<k; i++)
                 {
-                    mSongs[i] = new Song();
-                    mSongs[i].setAlbumCoverURL(tracksPager.tracks.items.get(i).album.images.get(0).url);
-                    mSongs[i].setArtist(tracksPager.tracks.items.get(i).artists.get(0).name);
-                    mSongs[i].setSongName(tracksPager.tracks.items.get(i).name);
-                    mSongs[i].setId(tracksPager.tracks.items.get(i).id);
+                    Song song = new Song();
+                    String url = "";
+
+                    try
+                    {
+                        url = tracksPager.tracks.items.get(i).album.images.get(0).url;
+                    }
+                    catch(Exception e)
+                    {
+                        url = "http://i.imgur.com/XIXcV5Y.jpg";
+                    }
+
+                    Log.d("URL IS!!! : ", url);
+
+
+
+                    song.setAlbumCoverURL(url);
+
+                    song.setArtist(tracksPager.tracks.items.get(i).artists.get(0).name);
+                    song.setSongName(tracksPager.tracks.items.get(i).name);
+                    song.setId(tracksPager.tracks.items.get(i).id);
+
+                    mSongs.add(song);
                 }
 
                 //Refresh view
@@ -103,6 +129,7 @@ public class SearchForSongActivity extends ActionBarActivity {
     @OnClick (R.id.searchButton)
     public void startSearchActivity(View view)
     {
+        mSongs.clear();
         String songName = mSearchEditText.getText().toString();
         searchForSong(songName);
     }
@@ -110,14 +137,18 @@ public class SearchForSongActivity extends ActionBarActivity {
     @OnClick (R.id.homeTab)
     public void startHomeActivity(View view)
     {
-
-        finish();
+        Intent intent = new Intent(this, HostMusicPlaylistHomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     @OnClick (R.id.editPlaylistButton)
     public void startEditPlaylistsActivity(View view)
     {
-        startActivity(new Intent(this, EditPlaylistsActivity.class));
+        Intent intent = new Intent(this, EditPlaylistsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
+
 
 }

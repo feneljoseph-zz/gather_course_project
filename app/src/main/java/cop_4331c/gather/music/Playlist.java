@@ -1,6 +1,7 @@
 package cop_4331c.gather.music;
 
 
+import java.util.LinkedList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
@@ -11,47 +12,33 @@ import kaaes.spotify.webapi.android.models.Track;
  */
 public class Playlist
 {
-    private Song[] mSongs;
     private String mPlaylistId;
+    private LinkedList<Song> mSongs2 = new LinkedList<Song>();
 
-    //Constructor for testing purposes only
+
     public Playlist()
     {
-
-        mSongs = new Song[1];
-        mSongs[0] = new Song();
-        mSongs[0].setSongName("Playlist Loading...");
-
+        Song s = new Song();
+        s.setSongName("Playlist Loading...");
+        mSongs2.add(s);
     }
 
-
+    // TODO LL IMPLEMENTATION
     public Playlist(List<PlaylistTrack> songs)
     {
-        mSongs = new Song[songs.size()];
-
-        for(int i=0; i<songs.size(); i++)
+       for(int i=0; i<songs.size(); i++)
         {
-            mSongs[i] = new Song();
-            mSongs[i].setSongName(songs.get(i).track.name);
-            mSongs[i].setAlbumCoverURL(songs.get(i).track.album.images.get(0).url);
-            mSongs[i].setArtist(songs.get(i).track.artists.get(0).name);
+            Song song = new Song();
+
+            song.setSongName(songs.get(i).track.name);
+            song.setAlbumCoverURL(songs.get(i).track.album.images.get(0).url);
+            song.setArtist(songs.get(i).track.artists.get(0).name);
+            song.setURI(songs.get(i).track.uri);
+
+            mSongs2.add(song);
         }
 
     }
-
-//    public Playlist(List<Track> songs)
-//    {
-//        mSongs = new Song[songs.size()];
-//
-//        for(int i=0; i<songs.size(); i++)
-//        {
-//            mSongs[i] = new Song();
-//            mSongs[i].setSongName(songs.get(i).track.name);
-//            mSongs[i].setAlbumCoverURL(songs.get(i).track.album.images.get(0).url);
-//            mSongs[i].setArtist(songs.get(i).track.artists.get(0).name);
-//        }
-//
-//    }
 
 
     public String getPlaylistId() {
@@ -62,12 +49,13 @@ public class Playlist
         mPlaylistId = playlistId;
     }
 
-    public Song[] getSongs() {
-        return mSongs;
+    public LinkedList<Song> getSongs() {
+        return mSongs2;
     }
 
-    public void setSongs(Song[] songs) {
-        mSongs = songs;
+
+    public void setSongs(LinkedList<Song> songs) {
+        mSongs2 = songs;
     }
 
 }
