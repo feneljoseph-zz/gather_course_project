@@ -33,6 +33,7 @@ public class Playlist
             song.setSongName(songs.get(i).track.name);
             song.setAlbumCoverURL(songs.get(i).track.album.images.get(0).url);
             song.setArtist(songs.get(i).track.artists.get(0).name);
+            song.setURI(songs.get(i).track.uri);
 
             mSongs2.add(song);
         }

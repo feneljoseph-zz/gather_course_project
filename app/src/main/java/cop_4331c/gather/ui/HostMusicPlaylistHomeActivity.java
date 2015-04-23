@@ -253,13 +253,17 @@ public class HostMusicPlaylistHomeActivity extends ActionBarActivity {
     @OnClick (R.id.searchTab)
     public void startSearchActivity(View view)
     {
-        startActivity(new Intent(this, SearchForSongActivity.class));
+        Intent intent = new Intent(this, SearchForSongActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+
     }
 
     @OnClick (R.id.editPlaylistButton)
     public void startEditPlaylistsActivity(View view)
     {
         Intent intent = new Intent(this, EditPlaylistsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
 
     }

@@ -1,5 +1,6 @@
 package cop_4331c.gather.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
@@ -106,7 +107,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
             spotify.getTrack(mSongs2.get(getPosition()).getId(), new Callback<Track>() {
                 @Override
-                public void success(Track track, Response response)
+                public void success(final Track track, Response response)
                 {
                     ImmutableMap<String, Object> queries = ImmutableMap.of("uris", (Object)track.uri);
                     ImmutableMap<String, Object> body = ImmutableMap.of("uris", (Object)track.uri);
@@ -116,13 +117,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                         @Override
                         public void success(Pager<PlaylistTrack> playlistTrackPager, Response response)
                         {
-
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mContext, track.name + " added to playlist", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
 
                         @Override
                         public void failure(RetrofitError error)
                         {
-
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mContext, track.name + " could not be added to playlist", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
                 }

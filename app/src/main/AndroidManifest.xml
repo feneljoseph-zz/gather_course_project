@@ -57,7 +57,6 @@
         <activity
             android:name=".ui.HostMusicPlaylistHomeActivity"
             android:label="@string/title_activity_host_music_playlist_home"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -68,7 +67,6 @@
             android:name=".ui.SearchForSongActivity"
             android:label="@string/title_activity_search_for_song_playlist"
             android:parentActivityName=".ui.HostMusicPlaylistHomeActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -78,7 +76,6 @@
             android:name=".ui.EditPlaylistsActivity"
             android:label="@string/title_activity_edit_playlists"
             android:parentActivityName=".ui.HostMusicPlaylistHomeActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
