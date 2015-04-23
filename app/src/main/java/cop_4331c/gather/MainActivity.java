@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -158,7 +159,25 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     public void viewEvent(ArrayList<ParseObject> events, int pos) {
+<<<<<<< HEAD
 
+=======
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.getInBackground(events.get(pos).getObjectId(), new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    Intent EventList = new Intent (MainActivity.this, new_features_list.class);
+                    EventList.putExtra("TargetObjectID", object.getObjectId());
+                    startActivity(EventList);
+
+                } else {
+                    ProgressDialog dlg = new ProgressDialog(MainActivity.this);
+                    dlg.setMessage("Could not get event");
+                    dlg.show();
+                }
+            }
+        });
+>>>>>>> 1b68728af82b4303ab98901b3837df67b5a60712
     }
 
 
