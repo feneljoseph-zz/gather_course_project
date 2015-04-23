@@ -1,5 +1,6 @@
 package cop_4331c.gather;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,9 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -28,21 +32,21 @@ public class new_features_list extends ActionBarActivity {
         setContentView(R.layout.activity_new_features_list);
 
         Intent intent = getIntent();
-        TargetEventID = intent.getStringExtra("TargetEventID");
+        TargetEventID = intent.getStringExtra("TargetObjectID");
 
-        ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
-        eventQuery.whereEqualTo("objectId", TargetEventID);
-        eventQuery.findInBackground(new FindCallback<ParseObject>()
-        {
-            @Override
-            public void done(List eventList, com.parse.ParseException e)
-            {
-                if(e == null) {
-                    TargetEvent = (ParseObject) eventList.get(0);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.getInBackground(TargetEventID, new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    TextView title = (TextView) findViewById(R.id.txtEventTitle);
+
+                    try {title.setText(object.get("name").toString());}
+                    catch (Exception ex) {title.setText("No event name set");}
+
                 } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Error loading event information. Try again.",
-                            Toast.LENGTH_LONG).show();
+                    ProgressDialog dlg = new ProgressDialog(new_features_list.this);
+                    dlg.setMessage("Could not get event");
+                    dlg.show();
                 }
             }
         });
@@ -71,11 +75,19 @@ public class new_features_list extends ActionBarActivity {
 
     public void PublishActivity(View view) {
         Intent launch = new Intent(this, PublishEventActivity.class);
+        launch.putExtra("TargetObjectID", TargetEventID);
         startActivity(launch);
+        finish();
     }
 
     public void nameEventActivity(View view) {
         Intent nameEventActivity = new Intent(this, name_event.class);
+        nameEventActivity.putExtra("TargetObjectID", TargetEventID);
         startActivity(nameEventActivity);
+        finish();
+    }
+
+    public void onBackPressed() {
+        startActivity(new Intent(new_features_list.this, MainActivity.class));
     }
 }

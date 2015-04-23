@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,7 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -95,9 +98,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         String currentUserId = ParseUser.getCurrentUser().getObjectId();
         final ArrayList<String> names = new ArrayList<String>();
 
-        final ArrayList<ParseObject> events = new ArrayList<ParseObject>();
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
         Parse.initialize(this, "r0AWTV2rHQu1LKLuvghS5dxgw32hKeBWDnVmyxNQ", "THis9813mCk50ooetnDlY9wIkAcYDkBn10IE5u2a");
@@ -130,38 +130,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         "Error loading user list",
                         Toast.LENGTH_LONG).show();
             }
-            }
-        });
-
-        ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
-        eventQuery.whereEqualTo("Attendees", currentUserId);
-        eventQuery.findInBackground(new FindCallback<ParseObject>()
-        {
-            @Override
-            public void done(List eventList, com.parse.ParseException e)
-            {
-                if(e == null) {
-                    for (int i=0; i<eventList.size(); i++) {
-                        ParseObject temp = (ParseObject) eventList.get(i);
-                        events.add(temp);
-                    }
-                    ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
-                    EventListAdapter eventsArrayAdapter =
-                            new EventListAdapter(getApplicationContext(),
-                                    R.layout.event_list_item, events);
-                    eventsListView.setAdapter(eventsArrayAdapter);
-                    eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> a, View v, int i, long l)
-                        {
-                            viewEvent(events, i);
-                        }
-                    });
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Error loading event list",
-                            Toast.LENGTH_LONG).show();
-                }
             }
         });
 
@@ -324,15 +292,63 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_event, container, false);
 
+            final ArrayList<ParseObject> events = new ArrayList<ParseObject>();
+            ParseUser currentUser = ParseUser.getCurrentUser();
+
+            ParseQuery<ParseObject> eventQuery = new ParseQuery("Event");
+            eventQuery.whereEqualTo("Attendees", currentUser.getObjectId());
+            eventQuery.findInBackground(new FindCallback<ParseObject>()
+            {
+                @Override
+                public void done(List eventList, com.parse.ParseException e)
+                {
+                    if(e == null) {
+                        for (int i=0; i<eventList.size(); i++) {
+                            ParseObject temp = (ParseObject) eventList.get(i);
+                            events.add(temp);
+                        }
+                        ListView eventsListView = (ListView)findViewById(R.id.EventLayout);
+                        EventListAdapter eventsArrayAdapter =
+                                new EventListAdapter(getApplicationContext(),
+                                        R.layout.event_list_item, events);
+                        eventsListView.setAdapter(eventsArrayAdapter);
+                        eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> a, View v, int i, long l)
+                            {
+                                viewEvent(events, i);
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Error loading event list",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
             // Set up the submit button click handler
             rootView.findViewById(R.id.buttonNewEvent).setOnClickListener( new View.OnClickListener() {
                 public void onClick(View view) {
-                    Intent EventList = new Intent(MainActivity.this, new_features_list.class);
-                    ParseObject newEvent = new ParseObject("Event");
+                    final Intent EventList = new Intent(MainActivity.this, new_features_list.class);
+                    final ParseObject newEvent = new ParseObject("Event");
                     newEvent.put("creator", ParseUser.getCurrentUser());
-                    newEvent.saveInBackground();
-                    EventList.putExtra("TargetObjectID", newEvent.get("objectId").toString());
+                    newEvent.add("Attendees", ParseUser.getCurrentUser().getObjectId());
+
+                    try {newEvent.save();}
+                    catch (ParseException e) { Toast.makeText(MainActivity.this, "Failed to create event", Toast.LENGTH_SHORT).show(); }
+
+                    final ProgressDialog load = new ProgressDialog(MainActivity.this);
+                    load.setTitle("Please wait");
+                    load.setMessage("Creating event");
+                    load.show();
+
+                    while (newEvent.getObjectId() == null) {}
+
+                    load.dismiss();
+                    EventList.putExtra("TargetObjectID", newEvent.getObjectId());
                     startActivity(EventList);
+
                 }
             });
 
@@ -396,7 +412,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             ParseUser currentUser = ParseUser.getCurrentUser();
             fillTextView(rootView, R.id.textNameProfile, currentUser.get("firstName").toString() + " " + currentUser.get("lastName").toString());
             fillTextView(rootView, R.id.textUsernameProfile, currentUser.getUsername().toString());
-            fillTextView(rootView, R.id.textPhoneNumberProfile, currentUser.get("phoneNumber").toString());
+
+            try {fillTextView(rootView, R.id.textPhoneNumberProfile, currentUser.get("phoneNumber").toString());}
+            catch (Exception e) {fillTextView(rootView, R.id.textPhoneNumberProfile, "No phone number registered");};
 
             return rootView;
         }
@@ -461,12 +479,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 holder = (ViewHolder)itemView.getTag();
             }
 
-            holder.text1.setText(item.get("name").toString());
-            holder.text2.setText(df.format(startDate));
-            holder.text3.setText(creator.get("firstName").toString() + " " + creator.get("lastName").toString());
+            try {holder.text1.setText(item.get("name").toString());}
+            catch (Exception e) {holder.text1.setText("No event name set");}
+
+            try {holder.text2.setText(df.format(startDate));}
+            catch (Exception e) {holder.text2.setText("No event date set");}
+
+            try {holder.text3.setText(creator.get("firstName").toString() + " " + creator.get("lastName").toString());}
+            catch (Exception ex) {}
 
             return itemView;
         }
     }
-
 }
+

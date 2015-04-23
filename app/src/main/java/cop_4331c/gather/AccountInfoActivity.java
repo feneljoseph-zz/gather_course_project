@@ -24,6 +24,7 @@ public class AccountInfoActivity extends ActionBarActivity {
     private EditText password; // = (EditText) findViewById(R.id.textPasswordLogin);
     private EditText verifyPassword; // = (EditText) findViewById(R.id.textPasswordVerify);
     private ParseUser user;
+
     @Override
      protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class AccountInfoActivity extends ActionBarActivity {
                     user.put("lastName", lastName.getText().toString());
                 if (userName.getText().length() > 0)
                     user.setUsername(userName.getText().toString());
-                if (phoneNumber.getText().length() > 0 && isValidPhone(phoneNumber.getText().toString()))
+                if (phoneNumber.getText().length() > 0 /*&& isValidPhone(phoneNumber.getText().toString())*/)
                     user.put("phoneNumber", phoneNumber.getText().toString());
                 password = (EditText) findViewById(R.id.textPasswordLogin);
                 verifyPassword = (EditText) findViewById(R.id.textPasswordVerify);
@@ -83,6 +84,8 @@ public class AccountInfoActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(),"Make sure your passwords match and are over" +
                             " 6 characters long!",Toast.LENGTH_LONG).show();
                 }
+
+                goBack();
             }
 
         });
@@ -96,10 +99,7 @@ public class AccountInfoActivity extends ActionBarActivity {
         return matcher.matches();
     }
 
-
-
-
-    public void goBack(View view) {
+    public void goBack() {
         Intent goBack = new Intent(this, MainActivity.class);
         startActivity(goBack);
     }

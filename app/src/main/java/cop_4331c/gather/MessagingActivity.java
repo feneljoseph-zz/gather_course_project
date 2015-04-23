@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -159,7 +160,8 @@ public class MessagingActivity  extends Activity {
                             parseMessage.put("recipientId", writableMessage.getRecipientIds().get(0));
                             parseMessage.put("messageText", writableMessage.getTextBody());
                             parseMessage.put("sinchId", writableMessage.getMessageId());
-                            parseMessage.saveInBackground();
+                            try {parseMessage.save();}
+                            catch (ParseException ex) { Toast.makeText(MessagingActivity.this, "Failed to store message", Toast.LENGTH_SHORT).show(); }
                         }
                     }
                 }
