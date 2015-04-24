@@ -108,7 +108,7 @@ public class name_event extends ActionBarActivity {
 
         final ProgressDialog load = new ProgressDialog(name_event.this);
         load.setTitle("Please wait");
-        load.setMessage("Updating name event");
+        load.setMessage("Updating event name");
         load.show();
 
         final Handler handler = new Handler();

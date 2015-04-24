@@ -108,10 +108,19 @@
                 android:value="cop_4331c.gather.MainActivity" />
         </activity>
 
-        <service android:name=".util.MessageService"
+        <service
+            android:name=".util.MessageService"
             android:enabled="true" >
-            </service>
+        </service>
 
+        <activity
+            android:name=".SendInvitesActivity"
+            android:label="@string/title_activity_send_invites"
+            android:parentActivityName=".new_features_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cop_4331c.gather.new_features_list" />
+        </activity>
     </application>
 
 </manifest>
