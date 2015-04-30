@@ -38,6 +38,8 @@ public class PublishEventActivity extends Activity{
     ImageButton twitterShareButton;
     ImageButton googlePlusShareButton;
     Twitter twitter;
+    private String TargetEventID;
+
     // Shared Preferences
     //private static SharedPreferences mSharedPreferences = getApplicationContext().getSharedPreferences(
     //       "MyPref", 0);
@@ -247,7 +249,6 @@ public class PublishEventActivity extends Activity{
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -268,5 +269,17 @@ public class PublishEventActivity extends Activity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = getIntent();
+        TargetEventID = intent.getStringExtra("TargetObjectID");
+
+        Intent launch = new Intent(this, new_features_list.class);
+        launch.putExtra("TargetObjectID", TargetEventID);
+        startActivity(launch);
+        finish();
+
     }
 }

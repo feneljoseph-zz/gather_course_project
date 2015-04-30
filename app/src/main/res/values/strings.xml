@@ -77,5 +77,6 @@
 
     <!-- Event Fragment Strings -->
     <string name="new_event">CREATE NEW EVENT</string>
+    <string name="title_activity_send_invites">SendInvitesActivity</string>
 
 </resources>

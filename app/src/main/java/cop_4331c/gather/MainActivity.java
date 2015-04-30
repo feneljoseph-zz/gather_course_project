@@ -99,11 +99,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         String currentUserId = ParseUser.getCurrentUser().getObjectId();
         final ArrayList<String> names = new ArrayList<String>();
 
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
+
 
         Parse.initialize(this, "r0AWTV2rHQu1LKLuvghS5dxgw32hKeBWDnVmyxNQ", "THis9813mCk50ooetnDlY9wIkAcYDkBn10IE5u2a");
 
         //don't include yourself
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereNotEqualTo("objectId", currentUserId);
         query.findInBackground(new FindCallback<ParseUser>()
         {

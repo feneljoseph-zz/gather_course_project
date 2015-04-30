@@ -1,5 +1,6 @@
 package cop_4331c.gather;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -84,6 +85,13 @@ public class new_features_list extends ActionBarActivity {
         Intent nameEventActivity = new Intent(this, name_event.class);
         nameEventActivity.putExtra("TargetObjectID", TargetEventID);
         startActivity(nameEventActivity);
+        finish();
+    }
+
+    public void sendInviteActivity(View view) {
+        Intent sendInviteActivity = new Intent(this, SendInvitesActivity.class);
+        sendInviteActivity.putExtra("TargetObjectID", TargetEventID);
+        startActivity(sendInviteActivity);
         finish();
     }
 
