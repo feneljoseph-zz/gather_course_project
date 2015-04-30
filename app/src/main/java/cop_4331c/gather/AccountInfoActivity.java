@@ -26,7 +26,7 @@ public class AccountInfoActivity extends ActionBarActivity {
     private ParseUser user;
 
     @Override
-     protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_info);
         //Get user info and fill fields with current info
@@ -71,13 +71,13 @@ public class AccountInfoActivity extends ActionBarActivity {
                     //save to parse
                     user.saveInBackground();
                     Toast.makeText(getApplicationContext(), "User Info Was Updated", Toast.LENGTH_LONG)
-                    .show();
+                            .show();
                 }
                 else if(password.getText().length()==0)
                 {
                     user.saveInBackground();
                     Toast.makeText(getApplicationContext(), "User Info Was Updated", Toast.LENGTH_LONG)
-                        .show();
+                            .show();
                 }
                 else
                 {

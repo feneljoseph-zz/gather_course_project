@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:background="@drawable/bg_gradient" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/albumCoverImage"
+            android:src="@drawable/abc_btn_check_to_on_mtrl_015"
+            android:minHeight="50dp"
+            android:paddingLeft="8dp"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="How Much a Dollar Cost (feat. James Fauntleroy &amp; Ronald Isley)"
+            android:id="@+id/songInfoLabel"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:paddingLeft="8dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="5">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/upButton"
+                android:layout_weight="1"
+                android:src="@drawable/ic_keyboard_arrow_up_black_18dp"
+                android:background="@android:color/transparent"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/deleteSongButton"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_delete_black_18dp"
+                android:focusableInTouchMode="false"/>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/downButton"
+                android:layout_weight="1"
+                android:src="@drawable/ic_keyboard_arrow_down_black_18dp"
+                android:background="@android:color/transparent"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

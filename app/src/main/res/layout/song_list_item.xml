@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:background="@drawable/bg_gradient" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:id="@+id/albumCoverImage"
+            android:src="@drawable/abc_btn_check_to_on_mtrl_015"
+            android:minHeight="50dp"
+            android:paddingLeft="8dp"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="How Much a Dollar Cost (feat. James Fauntleroy &amp; Ronald Isley)"
+            android:id="@+id/songInfoLabel"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:paddingLeft="8dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</RelativeLayout>

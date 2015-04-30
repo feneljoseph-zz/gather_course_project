@@ -71,6 +71,10 @@
     <string name="preview">preview</string>
     <string name="title_activity_messaging">MessagingActivity</string>
 
+    <string name="title_activity_host_music_playlist_home">HostMusicPlaylistHomeActivity</string>
+    <string name="title_activity_search_for_song_playlist">searchForSongPlaylist</string>
+    <string name="title_activity_edit_playlists">EditPlaylistsActivity</string>
+
     <!-- Event Fragment Strings -->
     <string name="new_event">CREATE NEW EVENT</string>
 
